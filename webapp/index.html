@@ -1,73 +1,97 @@
-<!DOCTYPE html>
-<!-- Set language to european English stupid prick! It is much more sophisticated and decent! -->
+<!doctype html>
 <html lang="en-GB">
 <head>
-	<!--
-		Glue the META shit together, it is much more tidy.
-		Also organize them by techy stuff and content related stuff.
-	-->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="keywords" content="">
-	<meta name="description" content="Exercises and assignments for the course front-end development 2 at the university of applied sciences Amsterdam, bachelor degree information technology Communication and Multimedia Design.">
-
-	<!-- Include the site stylesheet -->
-	<link href="css/styles.css" rel="stylesheet" media="all">
-	<!-- If I catch you polyfilling this shit, I will polyfill your ass! -->
-	<title>Front-end development 2</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Roel Victor Antonisse">
+    <meta name="description" content="Web App V1, basic JavaScript Skeleton">
+    <title>My Favorite Movies Collection</title>
+    <link rel="stylesheet" href="assets/style/main.css">
+    <link rel="author" href="humans.txt">
 </head>
 <body>
-
-	<!-- The page header typically contains items such as your site heading, logo and possibly the main site navigation -->
-	<!-- ARIA: the landmark role "banner" is set as it is the prime heading or internal title of the page -->
-	<header role="banner">
-
-		<h1>Front-end development 2</h1>
-
-		<!-- ARIA: the landmark role "navigation" is added here as the element contains site navigation
-		NOTE: The <nav> element does not have to be contained within a <header> element, even though the two examples on this page are. -->
-		<nav role="navigation">
-			<!-- This can contain your site navigation either in an unordered list or even a paragraph that contains links that allow users to navigate your site -->
+	<!-- Body is a section follow with a heading -->
+	<header>
+		<h1>FavoMo</h1>
+		<p>My Favourite Movies</p>
+		<nav>
+			<!-- Nav is a section, follow with a heading -->
+			<h2>Menu</h2>
+			<ul>
+				<li><a href="#">About</a></li>
+				<li><a href="#">Movies</a></li>
+			</ul>
 		</nav>
-
 	</header>
 
-	<!-- The <main> element is used to enclose the main content, i.e. that which contains the central topic of a document -->
-	<!-- ARIA: the landmark role "main" is added here as it contains the main content of the document, and it is recommended to add it to the
-	<main> element until user agents implement the required role mapping. -->
-	<main role="main">
-		<section>
-			<header>
-				<h2>Getting Started</h2>
-				<!-- Page's Table of Contents -->
-				<nav role="navigation">
-					<ul>
-						<li><a href="#introduction">Introduction</a></li>
-						<li><a href="#instructions">Instructions</a></li>
-					</ul>
-				</nav>
-			</header>
+	<main id="content">
+		<section data-route="about">
+			<h2>About this app</h2>
 
-			<!-- No need for fucking article bs here. It is all context related stuff. -->
-			<h3 id="introduction">Introduction</h3>
-			<!-- Content -->
-			<p>Welcome to <abbr title="HyperText Markup Language 5">HTML5</abbr> Bones. This is a template that contains comments to aid you with setting up your <abbr title="HyperText Markup Language 5">HTML5</abbr> document.</p>
+			<p>Cities fall but they are rebuilt. heroes die but they are remembered. the man likes to play chess; let's get him some rocks. circumstances have taught me that a man's ethics are the only possessions he will take beyond the grave. multiply your anger by about a hundred, kate, that's how much he thinks he loves you. bruce... i'm god. multiply your anger by about a hundred, kate, that's how much he thinks he loves you. no, this is mount everest. you should flip on the discovery channel from time to time. but i guess you can't now, being dead and all. rehabilitated? well, now let me see. you know, i don't have any idea what that means. mister wayne, if you don't want to tell me exactly what you're doing, when i'm asked, i don't have to lie. but don't think of me as an idiot. rehabilitated? well, now let me see. you know, i don't have any idea what that means. cities fall but they are rebuilt. heroes die but they are remembered. no, this is mount everest. you should flip on the discovery channel from time to time. but i guess you can't now, being dead and all.</p>
+			<p>I did the same thing to gandhi, he didn't eat for three weeks. bruce... i'm god. cities fall but they are rebuilt. heroes die but they are remembered. i once heard a wise man say there are no perfect men. only perfect intentions. cities fall but they are rebuilt. heroes die but they are remembered. boxing is about respect. getting it for yourself, and taking it away from the other guy. well, what is it today? more spelunking? let me tell you something my friend. hope is a dangerous thing. hope can drive a man insane. bruce... i'm god. well, what is it today? more spelunking? it only took me six days. same time it took the lord to make the world. i did the same thing to gandhi, he didn't eat for three weeks.</p>
+			<p>Let me tell you something my friend. hope is a dangerous thing. hope can drive a man insane. boxing is about respect. getting it for yourself, and taking it away from the other guy. mister wayne, if you don't want to tell me exactly what you're doing, when i'm asked, i don't have to lie. but don't think of me as an idiot. you measure yourself by the people who measure themselves by you. circumstances have taught me that a man's ethics are the only possessions he will take beyond the grave. circumstances have taught me that a man's ethics are the only possessions he will take beyond the grave. you measure yourself by the people who measure themselves by you. you measure yourself by the people who measure themselves by you. that tall drink of water with the silver spoon up his ass. i once heard a wise man say there are no perfect men. only perfect intentions. mister wayne, if you don't want to tell me exactly what you're doing, when i'm asked, i don't have to lie. but don't think of me as an idiot. boxing is about respect. getting it for yourself, and taking it away from the other guy.</p>
+			<p>That tall drink of water with the silver spoon up his ass. well, what is it today? more spelunking? i now issue a new commandment: thou shalt do the dance. let me tell you something my friend. hope is a dangerous thing. hope can drive a man insane. i did the same thing to gandhi, he didn't eat for three weeks. the man likes to play chess; let's get him some rocks. i now issue a new commandment: thou shalt do the dance. i now issue a new commandment: thou shalt do the dance. multiply your anger by about a hundred, kate, that's how much he thinks he loves you. i don't think they tried to market it to the billionaire, spelunking, base-jumping crowd. that tall drink of water with the silver spoon up his ass. it only took me six days. same time it took the lord to make the world.</p>
+		</section>
 
-			<h3 id="instructions">Instructions</h3>
+		<section data-route="movies">
+			<h2>Favorite movies</h2>
+			<article>
+				<header>
+					<h3>Shawshank Redemption</h3>
+					<p>Release date: <time datetime="1994-10-14">14 October 1994</time></p>
+				</header>
 
-			<!-- Content -->
-			<ol>
-				<li>Read the comments in this template</li>
-				<li>Decide how you think your content may fit into the template</li>
-				<li>Start building your document</li>
-			</ol>
+				<figure>
+					<img src="assets/content/movies/images/shawshank-redemption.jpg" alt="Shawshank redemption cover">
+				</figure>
+
+				<p>Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.</p>
+			</article>
+
+			<article>
+				<header>
+					<h3>The Godfather</h3>
+					<p>Release date: <time datetime="1972-03-24">24 March 1972</time></p>
+				</header>
+
+				<figure>
+					<img src="assets/content/movies/images/the-godfather.jpg" alt="">
+				</figure>
+
+				<p>The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.</p>
+			</article>
+
+			<article>
+				<header>
+					<h3>Pulp Fiction</h3>
+					<p>Release date: <time datetime="1994-10-14">14 October 1994</time></p>
+				</header>
+
+				<figure>
+					<img src="assets/content/movies/images/pulp-fiction.jpg" alt="">
+				</figure>
+
+				<p>The lives of two mob hit men, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.</p>
+			</article>
+
+			<article>
+				<header>
+					<h3>The Dark Knight</h3>
+					<p>Release date: <time datetime="2008-07-18">18 July 2008</time></p>
+				</header>
+
+				<figure>
+					<img src="assets/content/movies/images/the-dark-knight.jpg" alt="">
+				</figure>
+
+				<p>When Batman, Gordon and Harvey Dent launch an assault on the mob, they let the clown out of the box, the Joker, bent on turning Gotham on itself and bringing any heroes down to his level.</p>
+			</article>
+
 		</section>
 	</main>
 
-	<!-- ARIA: the landmark role "contentinfo" is added here as it contains metadata that applies to the parent document -->
-	<footer role="contentinfo">
-		<!-- Copyright information can be contained within the <small> element. The <time> element is used here to indicate that the '2014' is a date -->
-		<small>Copyright &copy; <time datetime="2014">2014</time></small>
-	</footer>
+	<script src="assets/script/vendor/routie.js"></script>
+    <script src="assets/script/myApp.js"></script>
 </body>
 </html>
