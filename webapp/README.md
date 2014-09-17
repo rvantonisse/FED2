@@ -4,4 +4,4 @@
 
 # Web Application Assignment
 
-This is a web App based website of a movie collection.
+This is a web App based website of a movie collection. Build as an introduction to Object Oriënted Programming in JavaScript.
