@@ -2,17 +2,16 @@
 	'use strict';
 
 	// Define myApp
-	var myApp = myApp || {};
+	var rvaApp = rvaApp || {};
 
 	// myApp controller
-	myApp.controller = {
-		foo: 'bar',
+	rvaApp.controller = {
 		init: function() {
-			myApp.router.init();
+			rvaApp.router.init();
 		}
 	};
 
-	myApp.router = {
+	rvaApp.router = {
 		init: function() {
 			routie({
 				about: function() {
@@ -26,7 +25,33 @@
 			});
 		}
 	};
+
+	rvaApp.content = {
+		about: [
+			title = "About this app",
+			description = "Some random gibberish text... Totally not about this application."
+			],
+		movies: [
+			{
+				title: "Shawshank Redemption",
+				releaseDate: "",
+				description: "",
+				cover: ""
+			},
+			{
+				title: "The Godfather",
+				releaseDate: "",
+				description: "",
+				cover: ""
+			},
+			{
+				title: "Pulp Fiction",
+				releaseDate: "",
+				description: "",
+				cover: "assets/content/movies/images/pulp-fiction.jpg"
+			}]
+	};
 	// Start myApp :)
-	myApp.controller.init();
+	rvaApp.controller.init();
 
 }());
