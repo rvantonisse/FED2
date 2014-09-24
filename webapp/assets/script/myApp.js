@@ -1,4 +1,4 @@
-(function() {
+;(function() {
 	'use strict';
 
 	// Define myApp
@@ -8,6 +8,7 @@
 	rvaApp.controller = {
 		init: function() {
 			rvaApp.router.init();
+			rvaApp.sections.init();
 		}
 	};
 
@@ -29,7 +30,10 @@
 
 	// App content
 	rvaApp.content = {
-		about: ["title", "description"],
+		about: {
+			title: "about my app",
+			description: "description of my app"
+		},
 		movies: [
 			{
 				title: "Shawshank Redemption",
@@ -49,6 +53,32 @@
 				description: "The lives of two mob hit men, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
 				cover: "assets/content/movies/images/pulp-fiction.jpg"
 			}]
+	};
+
+	// App templating
+	rvaApp.sections = {
+		init: function() {
+			rvaApp.sections.about();
+			rvaApp.sections.movies();
+		},
+		about: function() {
+			var about = rvaApp.content.about;
+			Transparency.render(document.querySelector('[data-route="about"]'),about);
+		},
+		movies: function() {
+			var movies = rvaApp.content.movies;
+			var directives = {
+				cover: {
+					src: function(params) {
+						return this.cover;
+					},
+					alt: function(params) {
+						return this.title + " cover";
+					}
+				}
+			};
+			Transparency.render(document.querySelector('[data-route="movies"]'), movies, directives);
+		}
 	};
 
 	// Start myApp :)
