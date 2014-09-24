@@ -38,8 +38,9 @@ CMDA Front-end development 2
 	5. Effects / animation
 	6. Other
 * Return multiple selections:
-	a:hover,
-	a:focus {
+
+		a:hover,
+		a:focus { ... }
 
 ### JS
 
