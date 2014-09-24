@@ -33,16 +33,18 @@
 
 		<section data-route="movies">
 			<h2>Favorite movies</h2>
-			<article class="movie" data-bind="movie">
-				<header>
-					<h3 class="movie-title" data-bind="title"></h3>
-					<p>Release date: <time class="movie-release-date" data-bind="releaseDate" datetime=""></time></p>
-				</header>
-				<figure>
-					<img class="movie-cover" data-bind="cover" src="" alt="">
-				</figure>
-				<p class="movie-description" data-bind="description"></p>
-			</article>
+			<div data-bind="movies">
+				<article class="movie" data-bind="movie">
+					<header>
+						<h3 class="movie-title" data-bind="title"></h3>
+						<p>Release date: <time class="movie-release-date" data-bind="releaseDate" datetime=""></time></p>
+					</header>
+					<figure>
+						<img class="movie-cover" data-bind="cover" src="" alt="">
+					</figure>
+					<p class="movie-description" data-bind="description"></p>
+				</article>
+			</div>
 		</section>
 	</main>
 

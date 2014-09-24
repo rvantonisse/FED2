@@ -19,10 +19,12 @@
 				about: function() {
 					// Do stuff when #about is triggered
 					console.log('About section');
+					rvaApp.sections.toggle();
 				},
 				movies: function() {
 					// Do stuff when #movies is triggered
 					console.log('Movie section');
+					rvaApp.sections.toggle();
 				}
 			});
 		}
@@ -31,8 +33,8 @@
 	// App content
 	rvaApp.content = {
 		about: {
-			title: "about my app",
-			description: "description of my app"
+			title: "About FavoMo",
+			description: "This is an application showing all my favourite movies! (Yawn...)"
 		},
 		movies: [
 			{
@@ -77,8 +79,22 @@
 					}
 				}
 			};
-			Transparency.render(document.querySelector('[data-route="movies"]'), movies, directives);
-		}
+			Transparency.render(document.querySelector('[data-bind="movies"]'), movies, directives);
+		},
+		toggle: function(route) {
+			console.log("Section toggle: ");
+/*			console.log(this);
+			var sections = this;
+			for(var section in sections) {
+				console.log("looping through sections");
+				console.log(section);
+				if(!section.classList.contains('visible') && section !== route) {
+					section.classList.remove('visible');
+				} else {
+					section.classList.add('visible');
+				}
+			}
+*/		}
 	};
 
 	// Start myApp :)

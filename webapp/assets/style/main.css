@@ -1,0 +1,9 @@
+@charset 'UTF-8';
+
+section[data-route] {
+	display: none;
+}
+
+.visible {
+	display: block;
+}
