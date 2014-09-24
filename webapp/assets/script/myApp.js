@@ -8,30 +8,36 @@
 	rvaApp.controller = {
 		init: function() {
 			rvaApp.router.init();
-			rvaApp.sections.init();
+			rvaApp.template.init();
 		}
 	};
 
 	// Router module
 	rvaApp.router = {
 		init: function() {
-			routie({
-				about: function() {
-					// Do stuff when #about is triggered
-					console.log('About section');
-					rvaApp.sections.toggle();
-				},
-				movies: function() {
-					// Do stuff when #movies is triggered
-					console.log('Movie section');
-					rvaApp.sections.toggle();
+			this.render(this.paths);
+		},
+		paths: [
+			'about',
+			'movies'
+		],
+		render: function(path) {
+			// Routie(path, fn)
+			if(typeof path === 'object') {
+				for(var p in path) {
+					this.render(path[p]);
 				}
-			});
+			} else {
+				console.log(path);
+				routie(path, function() {
+					rvaApp.template.toggle(path);
+				});
+			}
 		}
 	};
 
 	// App content
-	rvaApp.content = {
+	rvaApp.pageContent = {
 		about: {
 			title: "About FavoMo",
 			description: "This is an application showing all my favourite movies! (Yawn...)"
@@ -58,43 +64,49 @@
 	};
 
 	// App templating
-	rvaApp.sections = {
+	rvaApp.template = {
 		init: function() {
-			rvaApp.sections.about();
-			rvaApp.sections.movies();
+			this.views.about();
+			this.views.movies();
 		},
-		about: function() {
-			var about = rvaApp.content.about;
-			Transparency.render(document.querySelector('[data-route="about"]'),about);
-		},
-		movies: function() {
-			var movies = rvaApp.content.movies;
-			var directives = {
-				cover: {
-					src: function(params) {
-						return this.cover;
-					},
-					alt: function(params) {
-						return this.title + " cover";
+		views: {
+			about: function() {
+				var meta = rvaApp.pageContent.about;
+				Transparency.render(document.querySelector('[data-route="about"]'),meta);
+			},
+			movies: function() {
+				var movies = rvaApp.pageContent.movies;
+				var directives = {
+					cover: {
+						src: function(params) {
+							return this.cover;
+						},
+						alt: function(params) {
+							return this.title + " cover";
+						}
 					}
-				}
-			};
-			Transparency.render(document.querySelector('[data-bind="movies"]'), movies, directives);
+				};
+				Transparency.render(document.querySelector('[data-bind="movies"]'), movies, directives);
+			}
+		},
+		// Render all views
+		render: function(views) {
+			Transparency.render(selector,content,directives);
 		},
 		toggle: function(route) {
-			console.log("Section toggle: ");
-/*			console.log(this);
-			var sections = this;
-			for(var section in sections) {
-				console.log("looping through sections");
-				console.log(section);
-				if(!section.classList.contains('visible') && section !== route) {
-					section.classList.remove('visible');
-				} else {
-					section.classList.add('visible');
+			console.log('Route: ' + route);
+			var views = document.querySelectorAll('section[data-route]');
+			console.log('Views:');
+			for(var view = 0; view < views.length; view++) {
+				console.log(views[view]);
+				if(views[view].classList.contains('visible')) {
+					views[view].classList.remove('visible');
+				}
+				if(views[view].dataset.route === route) {
+					views[view].classList.add('visible');
 				}
 			}
-*/		}
+		}
 	};
 
 	// Start myApp :)

@@ -13,7 +13,7 @@ Format:
 ### myApp.js rvaApp.router.render() using function from rvaApp.template.toggle()
 
 	Reported: 24/09/14
-	Status: unsolved
+	Status: partly solved (router.render) at 24/09/14
 
 
 __Description__
@@ -93,4 +93,4 @@ The code:
 	};
 
 __Solution__
-I have no clue...
+I have passed the wrong values as "path" in router.render. When "path" is an object I had to pass "path[p]" instead of just "p".

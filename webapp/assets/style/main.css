@@ -3,7 +3,6 @@
 section[data-route] {
 	display: none;
 }
-
-.visible {
+section.visible {
 	display: block;
 }
