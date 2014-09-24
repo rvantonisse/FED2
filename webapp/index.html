@@ -36,17 +36,17 @@
 
 		<section data-route="movies">
 			<h2>Favorite movies</h2>
-			<article>
+			<article class="movie">
 				<header>
-					<h3>Shawshank Redemption</h3>
-					<p>Release date: <time datetime="1994-10-14">14 October 1994</time></p>
+					<h3 class="movie-title" data-bind="movie.title">Shawshank Redemption</h3>
+					<p>Release date: <time class="movie-release-date" data-bind="movie.releaseDate" datetime="1994-10-14">14 October 1994</time></p>
 				</header>
 
 				<figure>
-					<img src="assets/content/movies/images/shawshank-redemption.jpg" alt="Shawshank redemption cover">
+					<img class="movie-cover" data-bind="movie.cover" src="assets/content/movies/images/shawshank-redemption.jpg" alt="Shawshank redemption cover">
 				</figure>
 
-				<p>Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.</p>
+				<p class="movie-description" data-bind="movie.description">Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.</p>
 			</article>
 
 			<article>
@@ -64,7 +64,7 @@
 
 			<article>
 				<header>
-					<h3>Pulp Fiction</h3>
+					<h3 class="title">Pulp Fiction</h3>
 					<p>Release date: <time datetime="1994-10-14">14 October 1994</time></p>
 				</header>
 
@@ -92,6 +92,7 @@
 	</main>
 
 	<script src="assets/script/vendor/routie.js"></script>
+	<script src="assets/script/vendor/transparency.js"></script>
     <script src="assets/script/myApp.js"></script>
 </body>
 </html>

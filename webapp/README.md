@@ -1,6 +1,6 @@
 	Roel Antonisse
 	V2-03 | FED2 Group 2
-	17/09/2014
+	24/09/2014
 
 # Web Application Assignment
 
@@ -17,8 +17,9 @@ This is a web App based website of a movie collection. Build as an introduction 
 
 ### Dependencies
 
+__TODO__
 You need to have [Node.js](http://nodejs.org/) with node package manager running in your command-line interface to start developing.
-The project is build with [Grunt.js](http://gruntjs.com/getting-started) taskmanager. Sass is used as CSS pre-processor. Nunjucks templating enginge.
+The project is build with [Grunt.js](http://gruntjs.com/getting-started) taskmanager. Sass is used as CSS pre-processor. Transperency.js as js template engine (Nunjucks templating enginge in final product).
 
 ### Conventions
 
@@ -42,6 +43,7 @@ On the command line interface
 
 ### Start developing
 
+__TODO__
 If [node](#dependencies) installed, enter the magic words in the CLI:
 
 	$ npm install
