@@ -24,7 +24,7 @@ The project is build with [Grunt.js](http://gruntjs.com/getting-started) taskman
 
 1. DRY KISS
 2. HTML5, CSS3, no jQuery
-3. WCAG 2.0 level 2 conformance
+3. [WCAG 2.0](http://www.w3.org/TR/WCAG20/) level 2 conformance
 
 ## Getting started
 
