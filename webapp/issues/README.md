@@ -49,7 +49,7 @@ The code:
 			}
 		}
 	};
-	
+
 	// App template
 	rvaApp.template = {
 		init: function() {

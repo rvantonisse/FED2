@@ -21,6 +21,12 @@
 			'about',
 			'movies'
 		],
+		/*
+		** Render method to display the triggered route
+		** If path is an object with paths re-call render on each path.
+		** Then run routie(path,function), calling the template.toggle method on path
+		** @param: path
+		 */
 		render: function(path) {
 			// Routie(path, fn)
 			if(typeof path === 'object') {
@@ -28,7 +34,7 @@
 					this.render(path[p]);
 				}
 			} else {
-				console.log(path);
+				// console.log(path);
 				routie(path, function() {
 					rvaApp.template.toggle(path);
 				});
@@ -66,17 +72,24 @@
 	// App templating
 	rvaApp.template = {
 		init: function() {
-			this.views.about();
-			this.views.movies();
+			this.render(this.views);
 		},
+		/*
+		** Views to render
+		** views:
+		**  element: [HTML-element]
+		**  meta: [JSON data object]
+		**  directives: [transparency directives]
+		 */
 		views: {
-			about: function() {
-				var meta = rvaApp.pageContent.about;
-				Transparency.render(document.querySelector('[data-route="about"]'),meta);
+			about: {
+				element: document.querySelector('[data-route="about"]'),
+				meta: rvaApp.pageContent.about
 			},
-			movies: function() {
-				var movies = rvaApp.pageContent.movies;
-				var directives = {
+			movies: {
+				element: document.querySelector('[data-bind="movies"]'),
+				meta: rvaApp.pageContent.movies,
+				directives: {
 					cover: {
 						src: function(params) {
 							return this.cover;
@@ -85,20 +98,25 @@
 							return this.title + " cover";
 						}
 					}
-				};
-				Transparency.render(document.querySelector('[data-bind="movies"]'), movies, directives);
+				}
 			}
 		},
 		// Render all views
 		render: function(views) {
-			Transparency.render(selector,content,directives);
+			console.log('Views: ' + views.length);
+			console.log(views);
+			for(var view in views) {
+				console.log(views[view]);
+				var thisView = views[view];
+				Transparency.render(thisView.element, thisView.meta, thisView.directives);
+			}
 		},
 		toggle: function(route) {
 			console.log('Route: ' + route);
 			var views = document.querySelectorAll('section[data-route]');
-			console.log('Views:');
+			// console.log('Views:');
 			for(var view = 0; view < views.length; view++) {
-				console.log(views[view]);
+				// console.log(views[view]);
 				if(views[view].classList.contains('visible')) {
 					views[view].classList.remove('visible');
 				}
