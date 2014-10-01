@@ -18,6 +18,7 @@
 			this.render(this.paths);
 		},
 		paths: [
+			'',
 			'about',
 			'movies'
 		],
@@ -35,6 +36,9 @@
 				}
 			} else {
 				// console.log(path);
+				if(path === '') {
+					routie('about');
+				}
 				routie(path, function() {
 					rvaApp.template.toggle(path);
 				});
