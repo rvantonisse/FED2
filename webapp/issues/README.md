@@ -14,8 +14,9 @@ Format:
 
 	Reported: 08/10/2014
 	status: unsolved
-	description:
-		Need help with rendering the imported data with __appData.getData()__ and set into __appData.views.movies__. Initially __appData.views.movies__ is set to be an empty object. As the data gets loaded, the callback function should set the data as object into __appData.views.movies__. With __appData.getMovies()__ called by __template.views.movies.meta__ I want to reset the data into another data format and return it back to __template.views.movies.meta__ when it is used by __template.renderView__. I have exported __template.views.movies.meta__ as __window.rvaApp.movies__, this will generate the right data, but it is not rendered right into the movies pageview.
+
+__Description:__
+	Need help with rendering the imported data with __appData.getData()__ and set into __appData.views.movies__. Initially __appData.views.movies__ is set to be an empty object. As the data gets loaded, the callback function should set the data as object into __appData.views.movies__. With __appData.getMovies()__ called by __template.views.movies.meta__ I want to reset the data into another data format and return it back to __template.views.movies.meta__ when it is used by __template.renderView__. I have exported __template.views.movies.meta__ as __window.rvaApp.movies__, this will generate the right data, but it is not rendered right into the movies pageview.
 
 ### myApp.js rvaApp.router.render() using function from rvaApp.template.toggle()
 
