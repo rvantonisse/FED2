@@ -9,6 +9,7 @@ This repository is created for educational purpose. [The Web-application posted 
 1. HTML5 API's
 	* localStorage
 2. JavaScript
+	* no jQuery
 	* OOP
 	* Routing
 	* Templating
