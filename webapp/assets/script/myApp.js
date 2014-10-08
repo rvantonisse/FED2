@@ -9,11 +9,9 @@
 	// myApp controller
 	rvaApp.controller = {
 		init: function() {
-			console.log('Initiating app:');
-			rvaApp.appData.getData('http://dennistel.nl/movies', function(data) {
-				rvaApp.appData.views.movies = JSON.parse(data);
-				console.log('movies after loading data');
-				console.log(rvaApp.appData.views.movies);
+			console.log('controller.init()');
+			rvaApp.appData.init(function() {
+				console.log('appData.init().callback');
 				rvaApp.router.init();
 				rvaApp.template.init();
 			});
@@ -23,6 +21,7 @@
 	// Router
 	rvaApp.router = {
 		init: function() {
+			console.log('router.init()');
 			this.render(this.paths);
 		},
 		paths: [
@@ -37,6 +36,7 @@
 		** @param: path
 		 */
 		render: function(path) {
+			console.log('router.render(' + path + ')');
 			// Routie(path, fn)
 			if(typeof path === 'object') {
 				for(var p in path) {
@@ -56,9 +56,25 @@
 
 	// App content
 	rvaApp.appData = {
+		init: function(callback) {
+			console.log('appData.init(' + callback + ')');
+			console.log('This');
+			console.log(this);
+			var self = this;
+			this.getData('http://dennistel.nl/movies', function(data) {
+				console.log('appData.getData().callback');
+				console.log('This');
+				console.log(this); // undefined???
+				self.views.movies = JSON.parse(data);
+				callback();
+			});
+		},
 		//simple XHR request in pure JavaScript
 		//https://gist.github.com/iwek/5599777
 		getData: function(url, callback) {
+			console.log('appData.getData(' + url + ', ' + callback + ')');
+			console.log('this');
+			console.log(this);
 			var xhr;
 
 			if(typeof XMLHttpRequest !== 'undefined') {
@@ -99,18 +115,13 @@
 			// Preflight?
 			xhr.send();
 		},
-		setData: function(data, target) {
-			console.log('Setting data');
-			console.log('Target before:');
-			console.log(target);
-			target = data;
-			console.log('Target after:');
-			console.log(rvaApp.appData.views.movies);
-		},
+		// get all movie data from appData.views.movies and return the right movie format
 		getMovies: function() {
-			console.log('Getting movies...');
+			console.log('appData.getMovies()');
+			console.log('This:');
+			console.log(this);
 			var movies = {},
-				results = rvaApp.appData.views.movies;
+				results = this.views.movies;
 				console.log(results);
 			for(var result = 0; result < results.length; result++) {
 				var thisMovie = results[result];
@@ -123,7 +134,7 @@
 					cover: thisMovie.cover
 				};
 			}
-			console.log('this are the movies:');
+			console.log('Movies:');
 			console.log(movies);
 			return movies;
 		},
@@ -139,6 +150,9 @@
 	// App templating
 	rvaApp.template = {
 		init: function() {
+			console.log('template.init()');
+			console.log('this:');
+			console.log(this);
 			this.render(this.views);
 		},
 		/*
@@ -157,7 +171,12 @@
 			movies: {
 				title: 'movies',
 				element: document.querySelector('[data-bind="movies"]'),
-				meta: rvaApp.appData.getMovies(),
+				// This should be a simple referrence to appData.views.movies, but is a function instead
+				// returning the value returned by appData.getMovies().
+				meta: function() {
+					console.log('template.views.meta()');
+					return rvaApp.appData.getMovies();
+				},
 				directives: {
 					cover: {
 						src: function(params) {
@@ -170,26 +189,30 @@
 				}
 			}
 		},
-		// Render all views
+		// Render all views with renderView()
 		render: function(views) {
+			console.log('template.render(' + this.views + ')');
 			for(var view in views) {
 				this.renderView(views[view]);
 			}
 		},
-		// render one view
+		// render one view and if view.meta is a function, execute it and store back into view.meta as data
+		// Then activate transparency passing element, meta and directives
 		renderView: function(view) {
+			console.log('template.renderView(' + view.title + ')');
+			if(typeof view.meta === 'function') {
+				view.meta = view.meta();
+				console.log('view.meta:');
+				console.log(view.meta);
+			}
+			console.log('view.element: ' + view.element);
 			Transparency.render(view.element, view.meta, view.directives);
 		},
-		// getView(string); Search for a view in the template.views
-		getView: function(view) {
-			return this.views[view];
-		},
+		// Make a view visible by adding the visible class. First remove the visible class from all views
 		showView: function(route) {
-			console.log('Route: ' + route);
+			console.log('showView(' + route + ')');
 			var views = document.querySelectorAll('section[data-route]');
-			// console.log('Views:');
 			for(var view = 0; view < views.length; view++) {
-				// console.log(views[view]);
 				if(views[view].classList.contains('visible')) {
 					views[view].classList.remove('visible');
 				}
