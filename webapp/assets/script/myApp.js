@@ -1,18 +1,26 @@
-;(function() {
+;(function(w, undefined) {
 	'use strict';
 
 	// Define myApp
-	var rvaApp = rvaApp || {};
+	var rvaApp = rvaApp || {},
+		reference = 'rvaApp',
+		oldReference = w[reference];
 
 	// myApp controller
 	rvaApp.controller = {
 		init: function() {
-			rvaApp.router.init();
-			rvaApp.template.init();
+			console.log('Initiating app:');
+			rvaApp.appData.getData('http://dennistel.nl/movies', function(data) {
+				rvaApp.appData.views.movies = JSON.parse(data);
+				console.log('movies after loading data');
+				console.log(rvaApp.appData.views.movies);
+				rvaApp.router.init();
+				rvaApp.template.init();
+			});
 		}
 	};
 
-	// Router module
+	// Router
 	rvaApp.router = {
 		init: function() {
 			this.render(this.paths);
@@ -25,7 +33,7 @@
 		/*
 		** Render method to display the triggered route
 		** If path is an object with paths re-call render on each path.
-		** Then run routie(path,function), calling the template.toggle method on path
+		** Then run routie(path,function), calling the template.showView method on path
 		** @param: path
 		 */
 		render: function(path) {
@@ -35,42 +43,97 @@
 					this.render(path[p]);
 				}
 			} else {
-				// console.log(path);
+				// Set Default page to 'about'
 				if(path === '') {
-					routie('about');
+					routie(this.paths[1]);
 				}
 				routie(path, function() {
-					rvaApp.template.toggle(path);
+					rvaApp.template.showView(path);
 				});
 			}
 		}
 	};
 
 	// App content
-	rvaApp.pageContent = {
-		about: {
-			title: "About FavoMo",
-			description: "This is an application showing all my favourite movies! (Yawn...)"
+	rvaApp.appData = {
+		//simple XHR request in pure JavaScript
+		//https://gist.github.com/iwek/5599777
+		getData: function(url, callback) {
+			var xhr;
+
+			if(typeof XMLHttpRequest !== 'undefined') {
+				xhr = new XMLHttpRequest();
+			} else {
+				var versions = [
+					"MSXML2.XmlHttp.5.0",
+					"MSXML2.XmlHttp.4.0",
+					"MSXML2.XmlHttp.3.0",
+					"MSXML2.XmlHttp.2.0",
+					"Microsoft.XmlHttp"
+				];
+
+				for(var i = 0, len = versions.length; i < len; i++) {
+					try {
+						xhr = new ActiveXObject(versions[i]);
+						break;
+					} catch(e) {}
+				}
+			}
+
+			xhr.open('GET', url, true);
+			xhr.onreadystatechange = function () {
+				if(xhr.readyState < 4) {
+					return;
+				}
+
+				if(xhr.status !== 200) {
+					return;
+				}
+
+				// all is well
+				if(xhr.readyState === 4) {
+					callback(xhr.responseText);
+				}
+			};
+			// Set headers?
+			// Preflight?
+			xhr.send();
 		},
-		movies: [
-			{
-				title: "Shawshank Redemption",
-				releaseDate: "14 October 1994",
-				description: "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-				cover: "assets/content/movies/images/shawshank-redemption.jpg"
+		setData: function(data, target) {
+			console.log('Setting data');
+			console.log('Target before:');
+			console.log(target);
+			target = data;
+			console.log('Target after:');
+			console.log(rvaApp.appData.views.movies);
+		},
+		getMovies: function() {
+			console.log('Getting movies...');
+			var movies = {},
+				results = rvaApp.appData.views.movies;
+				console.log(results);
+			for(var result = 0; result < results.length; result++) {
+				var thisMovie = results[result];
+				movies[result] = {
+					id: thisMovie.id,
+					releaseDate: thisMovie.release_date,
+					title: thisMovie.title,
+					description: thisMovie.simple_plot,
+					plot: thisMovie.plot,
+					cover: thisMovie.cover
+				};
+			}
+			console.log('this are the movies:');
+			console.log(movies);
+			return movies;
+		},
+		views: {
+			about: {
+				title: 'About FavoMo',
+				description: 'This is an application showing all my favourite movies! (Yawn...)'
 			},
-			{
-				title: "The Godfather",
-				releaseDate: "24 March 1972",
-				description: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
-				cover: "assets/content/movies/images/the-godfather.jpg"
-			},
-			{
-				title: "Pulp Fiction",
-				releaseDate: "14 October 1994",
-				description: "The lives of two mob hit men, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-				cover: "assets/content/movies/images/pulp-fiction.jpg"
-			}]
+			movies: {}
+		}
 	};
 
 	// App templating
@@ -87,12 +150,14 @@
 		 */
 		views: {
 			about: {
+				title: 'about',
 				element: document.querySelector('[data-route="about"]'),
-				meta: rvaApp.pageContent.about
+				meta: rvaApp.appData.views.about
 			},
 			movies: {
+				title: 'movies',
 				element: document.querySelector('[data-bind="movies"]'),
-				meta: rvaApp.pageContent.movies,
+				meta: rvaApp.appData.getMovies(),
 				directives: {
 					cover: {
 						src: function(params) {
@@ -107,15 +172,19 @@
 		},
 		// Render all views
 		render: function(views) {
-			console.log('Views: ' + views.length);
-			console.log(views);
 			for(var view in views) {
-				console.log(views[view]);
-				var thisView = views[view];
-				Transparency.render(thisView.element, thisView.meta, thisView.directives);
+				this.renderView(views[view]);
 			}
 		},
-		toggle: function(route) {
+		// render one view
+		renderView: function(view) {
+			Transparency.render(view.element, view.meta, view.directives);
+		},
+		// getView(string); Search for a view in the template.views
+		getView: function(view) {
+			return this.views[view];
+		},
+		showView: function(route) {
 			console.log('Route: ' + route);
 			var views = document.querySelectorAll('section[data-route]');
 			// console.log('Views:');
@@ -130,8 +199,14 @@
 			}
 		}
 	};
+	// My app export
+	rvaApp.export = {
+		movies: rvaApp.template.views.movies.meta
+	};
+	w[reference] = rvaApp.export;
 
 	// Start myApp :)
 	rvaApp.controller.init();
 
-}());
+
+}(this));
