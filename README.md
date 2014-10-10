@@ -25,12 +25,13 @@ This repository is created for educational purpose. [The Web-application posted 
 * Progressive enhancement
 * W3C standards
 * WCAG 2.0 conformance level 2
+* Comments and naming in [English](http://coub.com/view/3xx0dgl0) for better sharing.
 
 ### HTML
 
-* Use HTML5 DOCTYPE `<!DOCTYPE html>`
+* HTML5 DOCTYPE `<!DOCTYPE html>`
 * Set language and sublanguage for pages `<html lang="en-GB">`
-* Set HTML5 charset `<meta charset="utf-8">`
+* HTML5 charset `<meta charset="utf-8">`
 * HTML attribute order:
 	1. id as link and form hooks
 	2. class as CSS hook
@@ -41,7 +42,7 @@ This repository is created for educational purpose. [The Web-application posted 
 
 ### CSS
 
-* Be specific; do not use "*" and id "#" selectors
+* Be specific; do not use the "*"-selector
 * Property order:
 	1. Positioning
 	2. Box model
