@@ -26,8 +26,13 @@
 		},
 		paths: [
 			'',
-			'about',
-			'movies'
+			'movies',
+			// 'movies/:movie:',
+			// 'movies/actors',
+			// 'movies/actors/:actor:',
+			// 'movies/directors',
+			// 'movies/directors/:director:',
+			'about'
 		],
 		/*
 		** Render method to display the triggered route
@@ -48,7 +53,7 @@
 					routie(this.paths[1]);
 				}
 				routie(path, function() {
-					console.log('Show view ' + path)
+					console.log('Show view ' + path);
 					rvaApp.template.showView(path);
 				});
 			}
@@ -66,7 +71,7 @@
 				console.log('appData.getData().callback');
 				console.log('This');
 				console.log(this); // undefined???
-				self.views.movies = JSON.parse(data);
+				self.dataBase = JSON.parse(data);
 				callback();
 			});
 		},
@@ -122,7 +127,7 @@
 			console.log('This:');
 			console.log(this);
 			var movies = [],
-				results = this.views.movies;
+				results = this.dataBase;
 				console.log(results);
 			for(var result = 0; result < results.length; result++) {
 				var thisMovie = results[result];
@@ -139,11 +144,14 @@
 			console.log(movies);
 			return movies;
 		},
+		dataBase: [],
 		views: {
 			about: {
 				title: 'About FavoMo',
 				description: 'This is an application showing all my favourite movies! (Yawn...)'
 			},
+			// actors: [],
+			// directors: [],
 			movies: []
 		}
 	};
@@ -160,7 +168,7 @@
 		** Views to render
 		** views:
 		**  element: [HTML-element]
-		**  meta: [JSON data object]
+		**  meta: [JSON data object] !Make sure this is an Array!
 		**  directives: [transparency directives]
 		 */
 		views: {
@@ -188,6 +196,11 @@
 						}
 					}
 				}
+			},
+			actors: {
+				title: 'actors',
+				element: document.querySelector('[data-route="actors"]'),
+
 			}
 		},
 		// Render all views with renderView()
