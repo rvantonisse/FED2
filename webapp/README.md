@@ -1,6 +1,5 @@
-	Roel Antonisse
-	V2-03 | FED2 Group 2
-	24/09/2014
+	Author: Roel Antonisse
+	Last updated: 10/10/2014
 
 # Web Application Assignment
 
