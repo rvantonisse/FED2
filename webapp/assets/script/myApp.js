@@ -9,9 +9,9 @@
 	// myApp controller
 	rvaApp.controller = {
 		init: function() {
-			console.log('controller.init()');
+			// console.log('controller.init()');
 			rvaApp.appData.init(function() {
-				console.log('appData.init().callback');
+				// console.log('appData.init().callback');
 				rvaApp.router.init();
 				rvaApp.template.init();
 			});
@@ -21,7 +21,7 @@
 	// Router
 	rvaApp.router = {
 		init: function() {
-			console.log('router.init()');
+			// console.log('router.init()');
 			this.render(this.paths);
 		},
 		paths: [
@@ -41,7 +41,7 @@
 		** @param: path
 		 */
 		render: function(path) {
-			console.log('router.render(' + path + ')');
+			// console.log('router.render(' + path + ')');
 			// Routie(path, fn)
 			if(typeof path === 'object') {
 				for(var p in path) {
@@ -50,10 +50,12 @@
 			} else {
 				// Set Default page to 'about'
 				if(path === '') {
+					// My default path is always the second path in router.paths
+					// Let routie set the hash
 					routie(this.paths[1]);
 				}
 				routie(path, function() {
-					console.log('Show view ' + path);
+					// console.log('Show view ' + path);
 					rvaApp.template.showView(path);
 				});
 			}
@@ -63,24 +65,73 @@
 	// App content
 	rvaApp.appData = {
 		init: function(callback) {
-			console.log('appData.init(' + callback + ')');
-			console.log('This');
-			console.log(this);
+			// console.log('appData.init(' + callback + ')');
 			var self = this;
-			this.getData('http://dennistel.nl/movies', function(data) {
-				console.log('appData.getData().callback');
-				console.log('This');
-				console.log(this); // undefined???
-				self.dataBase = JSON.parse(data);
-				callback();
-			});
+
+			// check if the browser supports localStorage
+			if(window.localStorage) {
+				// console.log('LocalStorage!');
+				// Check if rvaAppDatabase is stored locally for quick loading
+				if(this.isLocallyStored('rvaAppDatabase')) {
+					// console.log('rvaAppDatabase is locally stored');
+					this.dataBase = self.getFromLocalStorage('rvaAppDatabase');
+					// Update data in the background
+					this.updateLocalStorage(callback);
+				} else {
+					// If rvaAppDatabase is not locally stored
+					this.updateLocalStorage(callback);
+				}
+			} else {
+				// No localStorage available, load page as normal
+				// console.log('No localStorage...');
+				this.getData('http://dennistel.nl/movies', function(data) {
+					// console.log('appData.getData().callback');
+					self.dataBase = JSON.parse(data);
+					callback();
+				});
+			}
+		},
+		// Update the appData
+		updateLocalStorage: function(callback) {
+			// console.log('updateLocalStorage()');
+			var self = this;
+			if(window.navigator.onLine) {
+				// Dostuff
+				// console.log('Connected to internet');
+				this.getData('http://dennistel.nl/movies', function(data) {
+					// console.log('appData.getData().callback');
+					self.saveToLocalStorage('rvaAppDatabase', JSON.parse(data));
+				});
+			} else {
+				// not online dont try to load data
+				// console.log('No internet connection');
+			}
+			callback();
+		},
+		// Check for data in localStorage
+		isLocallyStored: function(name) {
+			// console.log('isLocallyStored(' + name + ')');
+			return (window.localStorage[name] !== undefined);
+		},
+		/*
+		** saveToLocalStorage(data)
+		** Save data into localStorage
+		 */
+		saveToLocalStorage: function(name, data) {
+			// console.log('saveToLocalStorage(' + name + ', ' + data + ')');
+			window.localStorage[name] = JSON.stringify(data);
+		},
+		/*
+		** getFromLocalStorage(data)
+		** Get data from local storage
+		 */
+		getFromLocalStorage: function(name) {
+			return JSON.parse(window.localStorage[name]);
 		},
 		//simple XHR request in pure JavaScript
 		//https://gist.github.com/iwek/5599777
 		getData: function(url, callback) {
-			console.log('appData.getData(' + url + ', ' + callback + ')');
-			console.log('this');
-			console.log(this);
+			// console.log('appData.getData(' + url + ', ' + callback + ')');
 			var xhr;
 
 			if(typeof XMLHttpRequest !== 'undefined') {
@@ -123,12 +174,11 @@
 		},
 		// get all movie data from appData.views.movies and return the right movie format
 		getMovies: function() {
-			console.log('appData.getMovies()');
-			console.log('This:');
-			console.log(this);
+			// console.log('appData.getMovies()');
+			// console.log('This:');
 			var movies = [],
 				results = this.dataBase;
-				console.log(results);
+				// console.log(results);
 			for(var result = 0; result < results.length; result++) {
 				var thisMovie = results[result];
 				movies[result] = {
@@ -140,8 +190,8 @@
 					cover: thisMovie.cover
 				};
 			}
-			console.log('Movies:');
-			console.log(movies);
+			// console.log('Movies:');
+			// console.log(movies);
 			return movies;
 		},
 		dataBase: [],
@@ -159,9 +209,7 @@
 	// App templating
 	rvaApp.template = {
 		init: function() {
-			console.log('template.init()');
-			console.log('this:');
-			console.log(this);
+			// console.log('template.init()');
 			this.render(this.views);
 		},
 		/*
@@ -183,7 +231,7 @@
 				// This should be a simple referrence to appData.views.movies, but is a function instead
 				// returning the value returned by appData.getMovies().
 				meta: function() {
-					console.log('template.views.meta()');
+					// console.log('template.views.meta()');
 					return rvaApp.appData.getMovies();
 				},
 				directives: {
@@ -212,21 +260,21 @@
 		// render one view and if view.meta is a function, execute it and store back into view.meta as data
 		// Then activate transparency passing element, meta and directives
 		renderView: function(view) {
-			console.log('render template');
-			console.log(rvaApp.template);
-			console.log('template.renderView(' + view.title + ')');
+			// console.log('render template');
+			// console.log(rvaApp.template);
+			// console.log('template.renderView(' + view.title + ')');
 			if(typeof view.meta === 'function') {
 				view.meta = view.meta();
-				console.log('view.meta:');
-				console.log(view.meta);
+				// console.log('view.meta:');
+				// console.log(view.meta);
 			}
-			console.log('view.movies: ' + view.movies);
-			console.log('view.element: ' + view.element);
+			// console.log('view.movies: ' + view.movies);
+			// console.log('view.element: ' + view.element);
 			Transparency.render(view.element, view.meta, view.directives);
 		},
 		// Make a view visible by adding the visible class. First remove the visible class from all views
 		showView: function(route) {
-			console.log('showView(' + route + ')');
+			// console.log('showView(' + route + ')');
 			var views = document.querySelectorAll('section[data-route]');
 			for(var view = 0; view < views.length; view++) {
 				if(views[view].classList.contains('visible')) {
@@ -238,6 +286,7 @@
 			}
 		}
 	};
+
 	// My app export
 	rvaApp.export = {
 		movies: rvaApp.template.views.movies.meta
