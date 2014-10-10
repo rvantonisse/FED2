@@ -48,6 +48,7 @@
 					routie(this.paths[1]);
 				}
 				routie(path, function() {
+					console.log('Show view ' + path)
 					rvaApp.template.showView(path);
 				});
 			}
@@ -120,7 +121,7 @@
 			console.log('appData.getMovies()');
 			console.log('This:');
 			console.log(this);
-			var movies = {},
+			var movies = [],
 				results = this.views.movies;
 				console.log(results);
 			for(var result = 0; result < results.length; result++) {
@@ -143,7 +144,7 @@
 				title: 'About FavoMo',
 				description: 'This is an application showing all my favourite movies! (Yawn...)'
 			},
-			movies: {}
+			movies: []
 		}
 	};
 
@@ -191,7 +192,6 @@
 		},
 		// Render all views with renderView()
 		render: function(views) {
-			console.log('template.render(' + this.views + ')');
 			for(var view in views) {
 				this.renderView(views[view]);
 			}
@@ -199,12 +199,15 @@
 		// render one view and if view.meta is a function, execute it and store back into view.meta as data
 		// Then activate transparency passing element, meta and directives
 		renderView: function(view) {
+			console.log('render template');
+			console.log(rvaApp.template);
 			console.log('template.renderView(' + view.title + ')');
 			if(typeof view.meta === 'function') {
 				view.meta = view.meta();
 				console.log('view.meta:');
 				console.log(view.meta);
 			}
+			console.log('view.movies: ' + view.movies);
 			console.log('view.element: ' + view.element);
 			Transparency.render(view.element, view.meta, view.directives);
 		},
