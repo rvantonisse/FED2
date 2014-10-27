@@ -1,21 +1,36 @@
 var MYAPP = MYAPP || {};
 MYAPP.modules = MYAPP.modules || {};
+MYAPP.model = MYAPP.model || {};
+MYAPP.view = MYAPP.view || {};
 
 MYAPP.controller = (function (MYAPP) {
-	// Dependencies and private
+	// Dependencies
 	var _model = MYAPP.model,
 		_modules = MYAPP.modules,
 		_router = _modules.router,
-		_template = _modules.template;
+		_view = MYAPP.view,
+		_init;
 
-	var init = function () {
+	_init = function () {
+		var router = _router,
+			view = _view,
+			enableJS;
+
+		enableJS = function () {
+			var html = document.querySelector('html');
+			html.classList.toggle('js');
+		};
 		// Initiate stuff
 		console.log('controller.init()');
-		_router.init();
+		enableJS();
+		router.init();
+		view.init();
 	};
+
+
 
 	// Reveal controller object
 	return {
-		init: init
+		init: _init
 	};
 }(MYAPP || {}));

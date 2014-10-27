@@ -1,0 +1,62 @@
+@charset 'UTF-8';
+
+/*
+ * Reset margins and paddings
+ */
+body,
+ul,
+ol,
+li,
+figure,
+img,
+h1,
+h2,
+h3,
+h4,
+p {
+	margin: 0;
+	padding: 0;
+}
+
+
+body {
+	/* cssfontstack.com :3 */
+	font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+	letter-spacing: 0.1em;
+	line-height: 1.5em;
+}
+
+a {
+	color: inherit;
+}
+a:hover {
+	text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	margin-top: 1.5em;
+	line-height: 1em;
+}
+
+h1 {
+	font-size: 3em;
+}
+h2 {
+	font-size: 2em;
+}
+h3 {
+	font-size: 1.5em;
+}
+
+/* Layout pages */
+.js [data-route] {
+	display: none;
+}
+.js .visible {
+	display: block;
+}
+
+
