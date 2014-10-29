@@ -1,5 +1,5 @@
 // Namespace the app
-var MYAPP = MYAPP || {};
+// var MYAPP = MYAPP || {};
 
 MYAPP.model = (function (MYAPP) {
 	// Dependencies and variable initiation
@@ -160,8 +160,7 @@ MYAPP.model = (function (MYAPP) {
 		var movies = [],
 			results = data,
 			result,
-			niceUrl = _helpers.niceUrl,
-			map = _.map;
+			niceUrl = _helpers.niceUrl;
 			// console.log(results);
 		for(result = 0; result < results.length; result++) {
 			var thisMovie = results[result];
