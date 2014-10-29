@@ -160,8 +160,7 @@ MYAPP.model = (function (MYAPP) {
 		var movies = [],
 			results = data,
 			result,
-			niceUrl = _helpers.niceUrl,
-			map = _.map;
+			niceUrl = _helpers.niceUrl;
 			// console.log(results);
 		for(result = 0; result < results.length; result++) {
 			var thisMovie = results[result];
@@ -172,9 +171,7 @@ MYAPP.model = (function (MYAPP) {
 				url: niceUrl(thisMovie.title),
 				description: thisMovie.simple_plot,
 				plot: thisMovie.plot,
-				cover: thisMovie.cover,
-				genres: thisMovie.genres,
-				rating: thisMovie.reviews
+				cover: thisMovie.cover
 			};
 		}
 		_appData.pages.movies.content = movies;
