@@ -1,0 +1,95 @@
+@charset 'UTF-8';
+
+/*
+ * Reset margins and paddings
+ */
+body,
+ul,
+ol,
+li,
+figure,
+img,
+h1,
+h2,
+h3,
+h4,
+p {
+	margin: 0;
+	padding: 0;
+}
+
+
+body {
+	margin: 0 auto;
+	/* cssfontstack.com :3 */
+	font-family: "Futura", "Trebuchet MS", "Arial", "sans-serif";
+	font-size: 1.2em;
+	letter-spacing: 0.2em;
+	line-height: 2em;
+	max-width: 48em;
+}
+
+a {
+	color: inherit;
+}
+a:hover {
+	text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+	line-height: 1em;
+}
+
+h1 {
+	font-size: 3em;
+}
+h2 {
+	font-size: 2em;
+}
+h3 {
+	font-size: 1.5em;
+}
+
+/* Layout pages */
+.js [data-route] {
+	display: none;
+}
+.js .visible {
+	display: block;
+}
+
+/* Header */
+.site-header {
+	background-color: blue;
+	display: flex;
+	flex-direction: row;
+}
+
+/* Menu */
+.main-menu {
+	background-color: green;
+	display: flex;
+	flex-direction: row;
+	align-self: center;
+}
+.main-menu ul {
+	background-color: red;
+	display: flex;
+	flex-direction: row;
+	align-self: center;
+	list-style-type: none;
+}
+.main-menu ul > li {
+
+}
+.main-menu ul > li > a {
+	display: inline-block;
+	/*padding: 1em;*/
+}
+
+
