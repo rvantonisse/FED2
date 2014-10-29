@@ -1,10 +1,13 @@
 // Namespace the app
 var MYAPP = MYAPP || {};
-MYAPP.model = MYAPP.model || {};
+// MYAPP.model = MYAPP.model || {};
 
 MYAPP.view = (function (MYAPP) {
 	// Dependencies
-	var _views,
+	var _helpers = MYAPP.helpers,
+		_el = _helpers.el,
+		_els = _helpers.els,
+		_views,
 		_init,
 		_render,
 		_show,
@@ -14,13 +17,13 @@ MYAPP.view = (function (MYAPP) {
 	_views = {
 		about: {
 			title: 'about',
-			element: document.querySelector('[data-route="about"]'),
+			element: _el('[data-route="about"]'),
 			model: _models.about,
 			directives: {}
 		},
 		movies: {
 			title: 'movies',
-			element: document.querySelector('[data-route="movies"]'),
+			element: _el('[data-route="movies"]'),
 			model: _models.movies,
 			directives: {
 				content: {
@@ -59,18 +62,23 @@ MYAPP.view = (function (MYAPP) {
 
 		tr(element,model,directives);
 	};
+	// Only show the passed view
 	_show = function (view) {
 		console.log('view.show(' + view + ')');
 		var i,
-			views = document.querySelectorAll('[data-route]');
+			views = _els('[data-route]');
 
+		// Make the view appear and make other views disappear
 		for (i = 0; i < views.length; i++) {
 			var thisClassList = views[i].classList,
 				css = 'visible',
 				thisRoute = views[i].dataset.route;
+			// Check if thisClasslist contains the css and if thisRoute is not the view to be shown
 			if (thisClassList.contains(css) && thisRoute !== view) {
 				thisClassList.remove(css);
-			} else if (thisRoute === view) {
+			}
+			// Add the css to thisClassList if thisRoute is the view to be shown
+			else if (thisRoute === view) {
 				thisClassList.add(css);
 			}
 		}
