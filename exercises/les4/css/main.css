@@ -65,23 +65,23 @@ h3 {
 
 /* Header */
 .site-header {
-	background-color: blue;
+	/*background-color: blue;*/
 	display: flex;
 	flex-direction: row;
 }
 
 /* Menu */
 .main-menu {
-	background-color: green;
+	/*background-color: green;*/
 	display: flex;
 	flex-direction: row;
-	align-self: center;
+	align-self: flex-end;
 }
 .main-menu ul {
-	background-color: red;
+	/*background-color: red;*/
 	display: flex;
 	flex-direction: row;
-	align-self: center;
+	align-self: flex-end;
 	list-style-type: none;
 }
 .main-menu ul > li {
