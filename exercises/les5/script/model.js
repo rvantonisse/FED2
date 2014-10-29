@@ -4,7 +4,7 @@ var MYAPP = MYAPP || {};
 MYAPP.model = (function (MYAPP) {
 	// Dependencies and variable initiation
 	var _helpers = MYAPP.helpers,
-		_pages,
+		_appData,
 		_init,
 		_getJSON,
 		_setLocalStorage,
