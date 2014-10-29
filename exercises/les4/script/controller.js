@@ -12,8 +12,10 @@ MYAPP.controller = (function (MYAPP) {
 		_init;
 
 	_init = function () {
+		console.log('controller.init()');
 		var router = _router,
 			view = _view,
+			model = _model,
 			enableJS;
 
 		enableJS = function () {
@@ -23,8 +25,10 @@ MYAPP.controller = (function (MYAPP) {
 		// Initiate stuff
 		console.log('controller.init()');
 		enableJS();
-		router.init();
-		view.init();
+		model.init(function () {
+			router.init();
+			view.init();
+		});
 	};
 
 

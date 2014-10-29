@@ -3,8 +3,12 @@ var MYAPP = MYAPP || {};
 
 MYAPP.model = (function (MYAPP) {
 	// Dependencies and variable initiation
-	var _pages,
-		_init;
+	var _helpers = MYAPP.helpers,
+		_pages,
+		_init,
+		_getJSON,
+		_setMovies,
+		_getMovies;
 
 	// Pages collection and their data
 	_pages = {
@@ -19,37 +23,88 @@ MYAPP.model = (function (MYAPP) {
 		},
 		movies: {
 			title: 'My favourite movies',
-			content: [
-				{
-					title: 'Shawshank Redemption',
-					description: 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
-					releaseDate: '14 October 1994',
-					cover: 'images/shawshank-redemption.jpg'
-				},
-				{
-					title: 'The Godfather',
-					description: 'The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.',
-					releaseDate: '24 March 1972',
-					cover: 'images/the-godfather.jpg'
-				},
-				{
-					title: 'Pulp Fiction',
-					description: "The lives of two mob hit men, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-					releaseDate: '14 October 1994',
-					cover: 'images/pulp-fiction.jpg'
-				},
-				{
-					title: 'The Dark Knight',
-					description: "When Batman, Gordon and Harvey Dent launch an assault on the mob, they let the clown out of the box, the Joker, bent on turning Gotham on itself and bringing any heroes down to his level.",
-					releaseDate: '18 July 2008',
-					cover: 'images/the-dark-knight.jpg'
-				}
-			]
+			content: []
 		}
+	};
+	_init = function (callback) {
+		var getJSON = _getJSON,
+			setMovies = _setMovies;
+		getJSON('http://dennistel.nl/movies', function (data) {
+			setMovies(data);
+			callback();
+		});
+	};
+	// xhr function
+	_getJSON = function (url, callback) {
+		console.log('model.getData(' + url + ', ' + callback + ')');
+		var xhr,
+			versions,
+			i;
+		// Compatibillity with IE / legacy browsers
+		if(typeof XMLHttpRequest !== 'undefined') {
+			xhr = new XMLHttpRequest();
+		} else {
+			versions = [
+				"MSXML2.XmlHttp.5.0",
+				"MSXML2.XmlHttp.4.0",
+				"MSXML2.XmlHttp.3.0",
+				"MSXML2.XmlHttp.2.0",
+				"Microsoft.XmlHttp"
+			];
+
+			for(i = 0; i < versions.length; i++) {
+				try {
+					xhr = new ActiveXObject(versions[i]);
+					break;
+				} catch(e) {}
+			}
+		}
+
+		xhr.open('GET', url, true);
+		xhr.onreadystatechange = function () {
+			if(xhr.readyState < 4) {
+				return;
+			}
+
+			if(xhr.status !== 200) {
+				return;
+			}
+
+			// all is well
+			if(xhr.readyState === 4) {
+				callback(JSON.parse(xhr.responseText));
+			}
+		};
+		// Set headers?
+		// Preflight?
+		xhr.send();
+	};
+	_setMovies = function (data) {
+		console.log('model.setMovies(' + data + ')');
+		var movies = [],
+			results = data,
+			result,
+			niceUrl = _helpers.niceUrl;
+			// console.log(results);
+		for(result = 0; result < results.length; result++) {
+			var thisMovie = results[result];
+			movies[result] = {
+				id: thisMovie.id,
+				releaseDate: thisMovie.release_date,
+				title: thisMovie.title,
+				url: niceUrl(thisMovie.title),
+				description: thisMovie.simple_plot,
+				plot: thisMovie.plot,
+				cover: thisMovie.cover
+			};
+		}
+		_pages.movies.content = movies;
+		return true;
 	};
 
 	// Export private methods and properties for public use.
 	return {
+		init: _init,
 		pages: _pages
 	};
 }(MYAPP || {}));
