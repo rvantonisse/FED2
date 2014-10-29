@@ -7,7 +7,6 @@
     <meta name="description" content="Web App V1, basic JavaScript Skeleton">
     <title>My Favorite Movies Collection</title>
     <link rel="stylesheet" href="assets/style/main.css">
-    <link rel="author" href="humans.txt">
 </head>
 <body>
 	<!-- Body is a section follow with a heading -->
@@ -45,8 +44,28 @@
 						<img class="movie-cover" data-bind="cover" src="" alt="">
 					</figure>
 					<p class="movie-description" data-bind="description"></p>
+					<a data-bind="link" href="#">Movie details</a>
 				</article>
 			</div>
+		</section>
+
+		<section data-route="movie">
+			<article class="movie" data-bind="movie">
+				<header>
+					<h2 class="movie-title" data-bind="title"></h2>
+					<p>Release date: <time class="movie-release-date" data-bind="releaseDate" datetime=""></time></p>
+				</header>
+				<figure>
+					<img class="movie-cover" data-bind="cover" src="" alt="">
+				</figure>
+				<p class="movie-description" data-bind="plot"></p>
+				<h3>Actors</h3>
+				<ul data-bind="actors">
+					<li data-bind="actor">
+						<a data-bind="link" href="#"><img data-bind="image" src="" alt=""></a>
+					</li>
+				</ul>
+			</article>
 		</section>
 	</main>
 

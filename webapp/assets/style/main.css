@@ -57,7 +57,7 @@ section.visible {
 }
 
 /* MOVIES */
-/*.movie-collection {
+.movie-collection {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -67,4 +67,9 @@ section.visible {
 	padding: 0 5%;
 	flex-basis: 40%;
 }
-*/
+
+.movie-cover {
+	width: 100%;
+	max-width: 320px;
+}
+

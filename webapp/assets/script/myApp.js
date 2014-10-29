@@ -9,56 +9,13 @@
 	// myApp controller
 	rvaApp.controller = {
 		init: function() {
+			// debugger;
 			// console.log('controller.init()');
 			rvaApp.appData.init(function() {
 				// console.log('appData.init().callback');
 				rvaApp.router.init();
 				rvaApp.template.init();
 			});
-		}
-	};
-
-	// Router
-	rvaApp.router = {
-		init: function() {
-			// console.log('router.init()');
-			this.render(this.paths);
-		},
-		paths: [
-			'',
-			'movies',
-			// 'movies/:movie:',
-			// 'movies/actors',
-			// 'movies/actors/:actor:',
-			// 'movies/directors',
-			// 'movies/directors/:director:',
-			'about'
-		],
-		/*
-		** Render method to display the triggered route
-		** If path is an object with paths re-call render on each path.
-		** Then run routie(path,function), calling the template.showView method on path
-		** @param: path
-		 */
-		render: function(path) {
-			// console.log('router.render(' + path + ')');
-			// Routie(path, fn)
-			if(typeof path === 'object') {
-				for(var p in path) {
-					this.render(path[p]);
-				}
-			} else {
-				// Set Default page to 'about'
-				if(path === '') {
-					// My default path is always the second path in router.paths
-					// Let routie set the hash
-					routie(this.paths[1]);
-				}
-				routie(path, function() {
-					// console.log('Show view ' + path);
-					rvaApp.template.showView(path);
-				});
-			}
 		}
 	};
 
@@ -177,7 +134,8 @@
 			// console.log('appData.getMovies()');
 			// console.log('This:');
 			var movies = [],
-				results = this.dataBase;
+				results = this.dataBase,
+				niceUrl = rvaApp.helpers.niceUrl;
 				// console.log(results);
 			for(var result = 0; result < results.length; result++) {
 				var thisMovie = results[result];
@@ -185,6 +143,7 @@
 					id: thisMovie.id,
 					releaseDate: thisMovie.release_date,
 					title: thisMovie.title,
+					url: niceUrl(thisMovie.title),
 					description: thisMovie.simple_plot,
 					plot: thisMovie.plot,
 					cover: thisMovie.cover
@@ -193,6 +152,20 @@
 			// console.log('Movies:');
 			// console.log(movies);
 			return movies;
+		},
+		getMovie: function(param) {
+			console.log('getMovie(' + param + ')');
+			var movie = {},
+				results = this.dataBase;
+			console.log('Movies:', results);
+			for(var result = 0; result < results.length; result++) {
+				var thisMovie = results[result];
+				console.log('This movie:', thisMovie);
+				if(thisMovie.url === param) {
+					movie = thisMovie;
+				}
+			}
+			return movie;
 		},
 		dataBase: [],
 		views: {
@@ -205,6 +178,51 @@
 			movies: []
 		}
 	};
+
+	// Router
+	rvaApp.router = {
+		init: function() {
+			// console.log('router.init()');
+			this.render(this.paths);
+		},
+		paths: [
+			'',
+			'movies',
+			'movies/:movie',
+			// 'movies/actors',
+			// 'movies/actors/:actor',
+			// 'movies/directors',
+			// 'movies/directors/:director',
+			'about'
+		],
+		/*
+		** Render method to display the triggered route
+		** If path is an object with paths re-call render on each path.
+		** Then run routie(path,function), calling the template.showView method on path
+		** @param: path
+		 */
+		render: function(path) {
+			console.log('router.render(' + path + ')');
+			// Routie(path, fn)
+			if(typeof path === 'object') {
+				for(var p in path) {
+					this.render(path[p]);
+				}
+			} else {
+				// Set Default page to 'about'
+				if(path === '') {
+					// My default path is always the second path in router.paths
+					// Let routie set the hash
+					routie(this.paths[1]);
+				}
+				routie(path, function(param) {
+					// console.log('Param: ' + param);
+					rvaApp.template.showView(path, param);
+				});
+			}
+		}
+	};
+
 
 	// App templating
 	rvaApp.template = {
@@ -223,7 +241,9 @@
 			about: {
 				title: 'about',
 				element: document.querySelector('[data-route="about"]'),
-				meta: rvaApp.appData.views.about
+				meta: function(){
+					return rvaApp.appData.views.about;
+				}
 			},
 			movies: {
 				title: 'movies',
@@ -235,6 +255,11 @@
 					return rvaApp.appData.getMovies();
 				},
 				directives: {
+					link: {
+						href: function(params) {
+							return '#movies/' + this.url;
+						}
+					},
 					cover: {
 						src: function(params) {
 							return this.cover;
@@ -245,37 +270,54 @@
 					}
 				}
 			},
+			movie: {
+				title: 'movie',
+				element: document.querySelector('[data-route="movie"]'),
+				meta: function(param) {
+					console.log('movie.meta(' + param + ')');
+					return rvaApp.appData.getMovie(param);
+				},
+				directives: {}
+			},
 			actors: {
 				title: 'actors',
 				element: document.querySelector('[data-route="actors"]'),
-
+				meta: [],
+				directives: {}
 			}
 		},
 		// Render all views with renderView()
 		render: function(views) {
+			console.log('template.render(' + views + ')');
 			for(var view in views) {
 				this.renderView(views[view]);
 			}
 		},
 		// render one view and if view.meta is a function, execute it and store back into view.meta as data
 		// Then activate transparency passing element, meta and directives
-		renderView: function(view) {
-			// console.log('render template');
-			// console.log(rvaApp.template);
-			// console.log('template.renderView(' + view.title + ')');
-			if(typeof view.meta === 'function') {
-				view.meta = view.meta();
-				// console.log('view.meta:');
-				// console.log(view.meta);
-			}
-			// console.log('view.movies: ' + view.movies);
-			// console.log('view.element: ' + view.element);
-			Transparency.render(view.element, view.meta, view.directives);
+		renderView: function(view, param) {
+			//console.log('template.renderView(' + view.title + ', ' + param + ')');
+			//console.log('View:', view);
+			//if(typeof view.meta === 'function') {
+			//
+				var data = view.meta(param);
+			//}
+			Transparency.render(view.element, data, view.directives);
 		},
 		// Make a view visible by adding the visible class. First remove the visible class from all views
-		showView: function(route) {
-			// console.log('showView(' + route + ')');
+		showView: function(route, param) {
 			var views = document.querySelectorAll('section[data-route]');
+			console.log('showView(' + route + ')');
+			if(param) {
+				console.log('With param: ' + param);
+				// Clean the route to a view
+				if(route.indexOf(':') > 0) {
+					route = route.substring(route.indexOf(':') + 1);
+					console.log('Route: ' + route);
+				}
+				console.log('View?', this.views[route]);
+				this.renderView(this.views[route], param);
+			}
 			for(var view = 0; view < views.length; view++) {
 				if(views[view].classList.contains('visible')) {
 					views[view].classList.remove('visible');
@@ -287,9 +329,22 @@
 		}
 	};
 
+	// My helpers
+	rvaApp.helpers = {
+		niceUrl: function(url) {
+			console.log('niceUrl(' + url + ')');
+			// To lowercase
+			url = url.toLowerCase(url);
+			// Replace space with '-'
+			url = url.replace(/ /g, '-');
+			return url;
+		}
+	};
+
 	// My app export
 	rvaApp.export = {
-		movies: rvaApp.template.views.movies.meta
+		movies: rvaApp.template.views.movies.meta,
+		movie: rvaApp.template.views.movie.meta
 	};
 	w[reference] = rvaApp.export;
 
