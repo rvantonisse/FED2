@@ -22,6 +22,7 @@ MYAPP.modules.router = (function (MYAPP) {
 		'about',
 		'movies',
 		'movies/:movie',
+		'movies/genre/:genre',
 		'' // Empty path to handle a default path later
 	];
 	// Default route/path. always first entry of _paths
@@ -63,7 +64,8 @@ MYAPP.modules.router = (function (MYAPP) {
 		// A param will be set by routie when we use a dynamic path like "movies/:movie"
 		// If it is not empty we can use the param to send it to the view.
 		if (param !== '') {
-
+			showView(path,param);
+			return;
 		}
 
 		console.log('showPath(' + path + ', ' + param + ')');

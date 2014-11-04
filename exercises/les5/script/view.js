@@ -7,6 +7,7 @@ MYAPP.view = (function (MYAPP) {
 	var _helpers = MYAPP.helpers,
 		_el = _helpers.el,
 		_els = _helpers.els,
+		_niceUrl = _helpers.niceUrl,
 		_views,
 		_init,
 		_render,
@@ -33,6 +34,127 @@ MYAPP.view = (function (MYAPP) {
 						},
 						alt: function (params) {
 							return this.title + ' cover';
+						}
+					},
+					genres: {
+						genre: {
+							text: function () {
+								return this.value;
+							},
+							href: function () {
+								return '#movies/genre/' + _niceUrl(this.value);
+							},
+						}
+					},
+					link: {
+						text: function (params) {
+							return params.value + ' ' + this.title;
+						},
+						href: function (params) {
+							return params.value + 'movies/' + this.url;
+						}
+					},
+					description: {
+						text: function (params) {
+							return this.description + ' ' + params.value;
+						}
+					},
+					reviewScore: {
+						text: function (params) {
+							return params.value + this.reviewScore;
+						}
+					}
+				}
+			}
+		},
+		movie: {
+			title: 'movie',
+			element: _el('[data-route="movie"]'),
+			model: _models.movie,
+			directives: {
+				content: {
+					cover: {
+						src: function (params) {
+							return this.cover;
+						},
+						alt: function (params) {
+							return this.title + ' cover';
+						}
+					},
+					genres: {
+						genre: {
+							text: function () {
+								return this.value;
+							},
+							href: function () {
+								return '#movies/genre/' + _niceUrl(this.value);
+							},
+						}
+					},
+					link: {
+						text: function (params) {
+							return params.value + ' ' + this.title;
+						},
+						href: function (params) {
+							return params.value + 'movies/' + this.url;
+						}
+					},
+					plot: {
+						text: function (params) {
+							return this.plot + ' ' + params.value;
+						}
+					},
+					reviewScore: {
+						text: function (params) {
+							return params.value + this.reviewScore;
+						}
+					}
+				}
+			}
+		},
+		genre: {
+			title: 'genre',
+			element: _el('[data-route="genre"]'),
+			model: _models.genre,
+			directives: {
+				title: function (params) {
+					return 'My favourite ' + this.title + ' movies';
+				},
+				content: {
+					cover: {
+						src: function (params) {
+							return this.cover;
+						},
+						alt: function (params) {
+							return this.title + ' cover';
+						}
+					},
+					genres: {
+						genre: {
+							text: function () {
+								return this.value;
+							},
+							href: function () {
+								return '#movies/genre/' + _niceUrl(this.value);
+							},
+						}
+					},
+					link: {
+						text: function (params) {
+							return params.value + ' ' + this.title;
+						},
+						href: function (params) {
+							return params.value + 'movies/' + this.url;
+						}
+					},
+					description: {
+						text: function (params) {
+							return this.description + ' ' + params.value;
+						}
+					},
+					reviewScore: {
+						text: function (params) {
+							return params.value + this.reviewScore;
 						}
 					}
 				}
@@ -63,10 +185,13 @@ MYAPP.view = (function (MYAPP) {
 		tr(element,model,directives);
 	};
 	// Only show the passed view
-	_show = function (view) {
+	_show = function (view, param) {
 		console.log('view.show(' + view + ')');
 		var i,
-			views = _els('[data-route]');
+			views = _els('[data-route]'),
+			render = _render,
+			setGenre = MYAPP.model.setGenre,
+			setMovie = MYAPP.model.setMovie;
 
 		// Make the view appear and make other views disappear
 		for (i = 0; i < views.length; i++) {
@@ -81,6 +206,14 @@ MYAPP.view = (function (MYAPP) {
 			else if (thisRoute === view) {
 				thisClassList.add(css);
 			}
+		}
+		if (view === 'genre') {
+			setGenre(param);
+			render(view);
+		}
+		if (view === 'movie') {
+			setMovie(param);
+			render(view);
 		}
 	};
 	// Export privates to the public

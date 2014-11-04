@@ -4,6 +4,7 @@ var MYAPP = MYAPP || {};
 MYAPP.model = (function (MYAPP) {
 	// Dependencies and variable initiation
 	var _helpers = MYAPP.helpers,
+		_arrayHelpers = _helpers.arrayMethods,
 		_appData,
 		_init,
 		_getJSON,
@@ -16,6 +17,7 @@ MYAPP.model = (function (MYAPP) {
 
 	// All app data
 	_appData = {
+		database: [],
 		pages: {
 			about: {
 				title: 'About this app',
@@ -29,6 +31,14 @@ MYAPP.model = (function (MYAPP) {
 			movies: {
 				title: 'My favourite movies',
 				content: []
+			},
+			movie: {
+				title: 'movie',
+				content: []
+			},
+			genre: {
+				title: 'genre',
+				content: []
 			}
 		}
 	};
@@ -37,6 +47,7 @@ MYAPP.model = (function (MYAPP) {
 			isLocalStorage = _isLocalStorage,
 			updateLocalStorage = _updateLocalStorage,
 			getLocalStorage = _getLocalStorage,
+			setDatabase = _setDatabase,
 			setMovies = _setMovies;
 
 		// check if the browser supports localStorage
@@ -63,7 +74,8 @@ MYAPP.model = (function (MYAPP) {
 			// console.log('No localStorage...');
 			getJSON('http://dennistel.nl/movies', function(data) {
 				// console.log('appData.getData().callback');
-				setMovies(data || []);
+				setDatabase(data);
+				setMovies(_appData.database || []);
 				callback();
 			});
 		}
@@ -154,7 +166,14 @@ MYAPP.model = (function (MYAPP) {
 	_getLocalStorage = function(name) {
 		return JSON.parse(window.localStorage[name]);
 	};
-
+	// Set the appdata database
+	function _setDatabase(data) {
+		if (data !== []) {
+			_appData.database = data;
+			return true;
+		}
+		return false;
+	}
 	_setMovies = function (data) {
 		console.log('model.setMovies(' + data + ')');
 		var movies = [],
@@ -166,21 +185,90 @@ MYAPP.model = (function (MYAPP) {
 			var thisMovie = results[result];
 			movies[result] = {
 				id: thisMovie.id,
-				releaseDate: thisMovie.release_date,
 				title: thisMovie.title,
+				releaseDate: thisMovie.release_date,
+				genres: thisMovie.genres,
 				url: niceUrl(thisMovie.title),
 				description: thisMovie.simple_plot,
 				plot: thisMovie.plot,
+				reviewScore: getReviewScoreAvg(thisMovie.reviews),
 				cover: thisMovie.cover
 			};
 		}
 		_appData.pages.movies.content = movies;
 		return true;
 	};
+	// Set the asked movie
+	function _setMovie(movie) {
+		console.log('setMovie(' + movie + ')');
+		var movies = _appData.pages.movies.content,
+			thisMovie = {},
+			where = _arrayHelpers.where;
+		// push in the requested movie to movies
+		thisMovie = where(movies, {url: movie});
+
+		_appData.pages.movie['content'] = thisMovie;
+		_appData.pages.movie['title'] = thisMovie.title;
+	}
+	// Set the current genre by using underscore's filter() and contains()
+	function _setGenre(genre) {
+		console.log('setGenre(' + genre + ')');
+		var filter = _arrayHelpers.filter,
+			contains = _arrayHelpers.contains,
+			niceUrl = _helpers.niceUrl,
+			getLocalStorage = _getLocalStorage,
+			data = _appData.pages.movies['content'],
+			movies = [];
+			// Create comparable genre values
+			for (var i = 0; i < data.length; i++) {
+				var genres = data[i].genres;
+				for (var j = 0; j < genres.length; j++) {
+					data[i].genres[j] = niceUrl(genres[j]);
+				}
+			}
+			// put the movies with genre into 'movies' by using filter() and contains()
+			movies = filter(data, function(movie) {
+				return contains(movie.genres, genre);
+			});
+			// Store it to the genre model
+			_appData.pages.genre['content'] = movies;
+			_appData.pages.genre['title'] = genre;
+	}
+	// Get all review scores and create an average rounded score
+	function getReviewScoreAvg(reviews) {
+		console.log('getReviewScoreAvg()', reviews);
+		// If reviews are empty return with a string
+		if (reviews.length < 1) {
+			return 'Not reviewed yet.';
+		}
+		var map = _arrayHelpers.map, // This is _.map()
+			reduce = _arrayHelpers.reduce, // This is _.reduce()
+			reviewScores,
+			reviewScoreAvg;
+			// Get all review.score's with map
+			reviewScores = map(reviews, function (review) {
+				return review.score;
+			});
+			// console.log('reviewScores: ', reviewScores);
+			// Reduce the scores to an average
+			reviewScoreAvg = reduce(reviewScores, function (a,b) {
+				return a + b;
+			}, 0);
+			// console.log('reviewScoreAvg: ', reviewScoreAvg);
+			// Devide by the amount of reviews
+			reviewScoreAvg = reviewScoreAvg/reviewScores.length;
+			// Make it a nice looking 2 digit decimal number
+			reviewScoreAvg = Math.round(reviewScoreAvg * 100)/100;
+			// return the review score average
+			// console.log('review score average: ', reviewScoreAvg);
+			return reviewScoreAvg;
+	}
 
 	// Export private methods and properties for public use.
 	return {
 		init: _init,
-		pages: _appData.pages
+		pages: _appData.pages,
+		setGenre: _setGenre,
+		setMovie: _setMovie
 	};
 }(MYAPP || {}));

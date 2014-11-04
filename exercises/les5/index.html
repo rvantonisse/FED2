@@ -35,13 +35,59 @@
 					<header>
 						<h2 data-bind="title"></h2>
 						<time data-bind="releaseDate"></time>
+						<p data-bind="genres">
+							<a data-bind="genre" href=""></a>
+						</p>
 					</header>
 
 					<figure>
 						<img src="" alt="" data-bind="cover">
 					</figure>
 
-					<p data-bind="description"></p>
+					<p data-bind="description"><a data-bind="link" href="#">Read more about </a></p>
+					<p data-bind="reviewScore">Review score: </p>
+				</article>
+			</div>
+		</section>
+		<section data-route="movie">
+			<h1 data-bind="title"></h1>
+			<div data-bind="content">
+				<article>
+					<header>
+						<h2 data-bind="title"></h2>
+						<time data-bind="releaseDate"></time>
+						<p data-bind="genres">
+							<a data-bind="genre" href=""></a>
+						</p>
+					</header>
+
+					<figure>
+						<img src="" alt="" data-bind="cover">
+					</figure>
+
+					<p data-bind="plot"></p>
+					<p data-bind="reviewScore">Review score: </p>
+				</article>
+			</div>
+		</section>
+		<section data-route="genre">
+			<h1 data-bind="title"></h1>
+			<div data-bind="content">
+				<article>
+					<header>
+						<h2 data-bind="title"></h2>
+						<time data-bind="releaseDate"></time>
+						<p data-bind="genres">
+							<a data-bind="genre" href=""></a>
+						</p>
+					</header>
+
+					<figure>
+						<img src="" alt="" data-bind="cover">
+					</figure>
+
+					<p data-bind="description"><a data-bind="link" href="#">Read more about </a></p>
+					<p data-bind="reviewScore">Review score: </p>
 				</article>
 			</div>
 		</section>

@@ -32,6 +32,7 @@ MYAPP.helpers = (function (MYAPP) {
 		map: _underscore.map,
 		reduce: _underscore.reduce,
 		filter: _underscore.filter,
+		contains: _underscore.contains,
 		where: _underscore.where,
 		sortBy: _underscore.sortBy,
 		groupBy: _underscore.groupBy
