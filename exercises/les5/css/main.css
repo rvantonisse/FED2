@@ -20,13 +20,12 @@ p {
 
 
 body {
-	margin: 0 auto;
 	/* cssfontstack.com :3 */
 	font-family: "Futura", "Trebuchet MS", "Arial", "sans-serif";
 	font-size: 1.2em;
 	letter-spacing: 0.2em;
 	line-height: 2em;
-	max-width: 48em;
+	background-color: #000;
 }
 
 a {
@@ -58,12 +57,9 @@ h3 {
 /* Layout pages */
 .js [data-route] {
 	display: none;
-	opacity: 0;
-	transition: all 3s ease;
 }
 .js .visible {
 	display: block;
-	opacity: 1.0;
 }
 
 /* Header */
@@ -71,6 +67,18 @@ h3 {
 	/*background-color: blue;*/
 	display: flex;
 	flex-direction: row;
+	margin: 0 auto;
+	padding: 1em;
+	max-width: 48em;
+	background-color: #fff;
+}
+
+/* Main */
+main {
+	margin: 0 auto;
+	padding: 1em;
+	max-width: 48em;
+	background-color: #fff;
 }
 
 /* Menu */
@@ -95,4 +103,8 @@ h3 {
 	/*padding: 1em;*/
 }
 
+/* Movie */
+.movie img {
+	width: 100%;
+}
 

@@ -72,6 +72,11 @@ MYAPP.view = (function (MYAPP) {
 			element: _el('[data-route="movie"]'),
 			model: _models.movie,
 			directives: {
+				title: {
+					text: function (params) {
+						return this.content.title;
+					}
+				},
 				content: {
 					cover: {
 						src: function (params) {
@@ -117,8 +122,10 @@ MYAPP.view = (function (MYAPP) {
 			element: _el('[data-route="genre"]'),
 			model: _models.genre,
 			directives: {
-				title: function (params) {
-					return 'My favourite ' + this.title + ' movies';
+				title: {
+					text: function (params) {
+						return 'My favourite ' + this.title + ' movies';
+					}
 				},
 				content: {
 					cover: {

@@ -188,6 +188,7 @@ MYAPP.model = (function (MYAPP) {
 				title: thisMovie.title,
 				releaseDate: thisMovie.release_date,
 				genres: thisMovie.genres,
+				actors: thisMovie.actors,
 				url: niceUrl(thisMovie.title),
 				description: thisMovie.simple_plot,
 				plot: thisMovie.plot,
@@ -203,12 +204,14 @@ MYAPP.model = (function (MYAPP) {
 		console.log('setMovie(' + movie + ')');
 		var movies = _appData.pages.movies.content,
 			thisMovie = {},
-			where = _arrayHelpers.where;
+			where = _arrayHelpers.where,
+			el = _helpers.el;
 		// push in the requested movie to movies
 		thisMovie = where(movies, {url: movie});
 
-		_appData.pages.movie['content'] = thisMovie;
-		_appData.pages.movie['title'] = thisMovie.title;
+		_appData.pages.movie['content'] = thisMovie[0];
+		_appData.pages.movie['title'] = thisMovie[0].title;
+		console.log('Movie title: ', thisMovie);
 	}
 	// Set the current genre by using underscore's filter() and contains()
 	function _setGenre(genre) {

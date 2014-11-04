@@ -31,65 +31,57 @@
 		<section data-route="movies">
 			<h1 data-bind="title"></h1>
 			<div data-bind="content">
-				<article>
-					<header>
-						<h2 data-bind="title"></h2>
+				<article class="movie-excerpt">
+					<h2 data-bind="title"></h2>
+					<figure>
+						<img src="" alt="" data-bind="cover">
+					</figure>
+					<div class="movie-meta-data">
 						<time data-bind="releaseDate"></time>
 						<p data-bind="genres">
 							<a data-bind="genre" href=""></a>
 						</p>
-					</header>
-
-					<figure>
-						<img src="" alt="" data-bind="cover">
-					</figure>
-
-					<p data-bind="description"><a data-bind="link" href="#">Read more about </a></p>
-					<p data-bind="reviewScore">Review score: </p>
-				</article>
-			</div>
-		</section>
-		<section data-route="movie">
-			<h1 data-bind="title"></h1>
-			<div data-bind="content">
-				<article>
-					<header>
-						<h2 data-bind="title"></h2>
-						<time data-bind="releaseDate"></time>
-						<p data-bind="genres">
-							<a data-bind="genre" href=""></a>
-						</p>
-					</header>
-
-					<figure>
-						<img src="" alt="" data-bind="cover">
-					</figure>
-
-					<p data-bind="plot"></p>
-					<p data-bind="reviewScore">Review score: </p>
+						<p data-bind="reviewScore">Review score: </p>
+						<p data-bind="description"><a data-bind="link" href="#">Read more about </a></p>
+					</div>
 				</article>
 			</div>
 		</section>
 		<section data-route="genre">
 			<h1 data-bind="title"></h1>
 			<div data-bind="content">
-				<article>
-					<header>
-						<h2 data-bind="title"></h2>
+				<article class="movie-excerpt">
+					<h2 data-bind="title"></h2>
+					<figure>
+						<img src="" alt="" data-bind="cover">
+					</figure>
+					<div class="movie-meta-data">
 						<time data-bind="releaseDate"></time>
 						<p data-bind="genres">
 							<a data-bind="genre" href=""></a>
 						</p>
-					</header>
-
-					<figure>
-						<img src="" alt="" data-bind="cover">
-					</figure>
-
-					<p data-bind="description"><a data-bind="link" href="#">Read more about </a></p>
-					<p data-bind="reviewScore">Review score: </p>
+						<p data-bind="reviewScore">Review score: </p>
+						<p data-bind="description"><a data-bind="link" href="#">Read more about </a></p>
+					</div>
 				</article>
 			</div>
+		</section>
+		<section data-route="movie">
+			<h1 data-bind="title"></h1>
+			<article class="movie" data-bind="content">
+
+				<figure>
+					<img src="" alt="" data-bind="cover">
+				</figure>
+				<div class="movie-meta-data">
+					<time data-bind="releaseDate"></time>
+					<p data-bind="genres">
+						<a data-bind="genre" href=""></a>
+					</p>
+					<p data-bind="reviewScore">Review score: </p>
+				</div>
+				<p data-bind="plot"></p>
+			</article>
 		</section>
 	</main>
 
