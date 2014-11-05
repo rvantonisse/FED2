@@ -50,6 +50,9 @@ h2 {
 h3 {
 	font-size: 1.5em;
 }
+p + p {
+	margin-top: 1rem;
+}
 
 /*header*/
 .site-header {
@@ -120,13 +123,14 @@ a:focus .logo {
 /* Layout pages */
 .page {
 	z-index: 0;
+	padding: 0 1em;
 	background-color: #fff;
 	transform:  translate(0,0);
 	transition: all 0.3s ease;
 }
 .page-title {
-/*	padding-top: 12rem;
-*/}
+
+}
 .hidden{
 	display: none;
 }
@@ -136,6 +140,12 @@ a:focus .logo {
 /*.visible {
 	transform:  translate(0,0);
 }*/
+
+/* Movies */
+.movie-cover {
+	width: 100%;
+	max-width: 30rem;
+}
 
 /* Loader */
 .loader-on,

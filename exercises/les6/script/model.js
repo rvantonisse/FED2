@@ -12,8 +12,7 @@ MYAPP.model = (function (MYAPP) {
 		_getLocalStorage,
 		_isLocalStorage,
 		_updateLocalStorage,
-		_setMovies,
-		_getMovies;
+		_setMovies;
 
 	// All app data
 	_appData = {
@@ -204,10 +203,13 @@ MYAPP.model = (function (MYAPP) {
 		_appData.pages.movies.content = movies;
 		return true;
 	};
+	function _getMovies() {
+		return _appData.pages.movies.content;
+	}
 	// Set the asked movie
-	function _setMovie(movie) {
+	function _setMovie (movie) {
 		console.log('setMovie(' + movie + ')');
-		var movies = _appData.pages.movies.content,
+		var movies = _getMovies(),
 			thisMovie = {},
 			where = _arrayHelpers.where,
 			el = _helpers.el;
@@ -218,8 +220,49 @@ MYAPP.model = (function (MYAPP) {
 		_appData.pages.movie['title'] = thisMovie[0].title;
 		console.log('Movie title: ', thisMovie);
 	}
+	function _getMovie () {
+		return _appData.pages.movie.content;
+	}
+	function _getMovieOrder (thisMovieUrl) {
+		// debugger;
+		var movies = _getMovies(),
+			moviesUrls = [],
+			map = _arrayHelpers.map,
+			indexOf = _arrayHelpers.indexOf,
+			currentMovie;
+			// Get all urls first
+			moviesUrls = map(movies, function (movie) {
+				return movie.url;
+			});
+			// Then check the index of thisMovieUrl
+			currentMovie = indexOf(moviesUrls,thisMovieUrl);
+			return currentMovie;
+	}
+	function _setNextMovie (current) {
+		var movies = _getMovies(),
+			currentMovie = _getMovieOrder(current),
+			nextMovie = currentMovie + 1,
+			path = 'movies/';
+			if (nextMovie >= movies.length) {
+				nextMovie = 0;
+			}
+			path = path + movies[nextMovie].url;
+			routie(path);
+	}
+	function _setPrevMovie (current) {
+		var movies = _getMovies(),
+			currentMovie = _getMovieOrder(current),
+			prevMovie = currentMovie - 1,
+			path = 'movies/';
+
+			if (prevMovie < 0) {
+				prevMovie = movies.length - 1;
+			}
+			path = path + movies[prevMovie].url;
+			routie(path);
+	}
 	// Set the current genre by using underscore's filter() and contains()
-	function _setGenre(genre) {
+	function _setGenre (genre) {
 		console.log('setGenre(' + genre + ')');
 		var filter = _arrayHelpers.filter,
 			contains = _arrayHelpers.contains,
@@ -278,6 +321,9 @@ MYAPP.model = (function (MYAPP) {
 		pages: _appData.pages,
 		setGenre: _setGenre,
 		setMovie: _setMovie,
-		setMovies: _setMovies
+		setNextMovie: _setNextMovie,
+		setPrevMovie: _setPrevMovie,
+		getMovie: _getMovie,
+		setMovies: _setMovies,
 	};
 }(MYAPP || {}));

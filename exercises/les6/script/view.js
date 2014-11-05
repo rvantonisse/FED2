@@ -12,7 +12,8 @@ MYAPP.view = (function (MYAPP) {
 		_init,
 		_render,
 		_show,
-		_models = MYAPP.model.pages;
+		_model = MYAPP.model,
+		_models = _model.pages;
 
 	// Views in transparency format
 	_views = {
@@ -268,10 +269,31 @@ MYAPP.view = (function (MYAPP) {
 			}
 		}
 	};
+	// Show next movie when viewing one movie
+	function _showNextMovie () {
+		console.log('showNextMovie()');
+		var currentMovie = _model.getMovie(),
+			url = currentMovie.url,
+			setNextMovie = _model.setNextMovie;
+
+		setNextMovie(url);
+
+	}
+	// Show previous movie when viewing one movie
+	function _showPrevMovie () {
+		console.log('showPrevMovie()');
+		var currentMovie = _model.getMovie(),
+			url = currentMovie.url,
+			setPrevMovie = _model.setPrevMovie;
+
+			setPrevMovie(url);
+	}
 	// Export privates to the public
 	return {
 		init: _init,
 		render: _render,
-		show: _show
+		show: _show,
+		nextMovie: _showNextMovie,
+		prevMovie: _showPrevMovie
 	};
 }(MYAPP || {}));

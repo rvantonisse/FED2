@@ -32,7 +32,7 @@
 			<div class="movies" data-bind="content">
 				<article class="movie-excerpt">
 					<figure class="movie-excerpt-img-box">
-						<img src="" alt="" data-bind="cover">
+						<img class="movie-cover" src="" alt="" data-bind="cover">
 					</figure>
 					<h2 class="movie-excerpt-title" data-bind="title"></h2>
 					<div class="movie-excerpt-meta-data">
@@ -52,7 +52,7 @@
 				<article class="movie-excerpt">
 					<h2 data-bind="title"></h2>
 					<figure>
-						<img src="" alt="" data-bind="cover">
+						<img class="movie-cover" src="" alt="" data-bind="cover">
 					</figure>
 					<div class="movie-meta-data">
 						<time data-bind="releaseDate"></time>
@@ -70,7 +70,7 @@
 			<article class="movie" data-bind="content">
 
 				<figure>
-					<img src="" alt="" data-bind="cover">
+					<img class="movie-cover" src="" alt="" data-bind="cover">
 				</figure>
 				<div class="movie-meta-data">
 					<time data-bind="releaseDate"></time>
@@ -91,6 +91,7 @@
 		</div>
 	</div>
 
+    <script src="script/vendor/hammer.js"></script>
     <script src="script/vendor/underscore.js"></script>
     <script src="script/vendor/transparency.js"></script>
     <script src="script/vendor/routie.js"></script>
@@ -98,6 +99,7 @@
     <script src="script/model.js"></script>
     <script src="script/view.js"></script>
     <script src="script/router.js"></script>
+    <script src="script/modules/touch.js"></script>
     <script src="script/controller.js"></script>
     <script src="script/app.js"></script>
 </body>

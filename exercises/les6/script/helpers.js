@@ -53,6 +53,7 @@ MYAPP.helpers = (function (MYAPP) {
 		reduce: _underscore.reduce,
 		filter: _underscore.filter,
 		contains: _underscore.contains,
+		indexOf: _underscore.indexOf,
 		where: _underscore.where,
 		sortBy: _underscore.sortBy,
 		groupBy: _underscore.groupBy
