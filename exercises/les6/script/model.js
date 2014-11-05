@@ -5,7 +5,6 @@ MYAPP.model = (function (MYAPP) {
 	// Dependencies and variable initiation
 	var _helpers = MYAPP.helpers,
 		_arrayHelpers = _helpers.arrayMethods,
-		_loadingTime = 5000,
 		_appData,
 		_init,
 		_getJSON,
@@ -68,9 +67,7 @@ MYAPP.model = (function (MYAPP) {
 				updateLocalStorage(function () {
 					setMovies(getLocalStorage('MYAPPMovies'));
 				});
-				setTimeout(function () {
-					callback();
-				},_loadingTime);
+				callback();
 			}
 		} else {
 			// No localStorage available, load page as normal
@@ -79,9 +76,7 @@ MYAPP.model = (function (MYAPP) {
 				// console.log('appData.getData().callback');
 				setDatabase(data);
 				setMovies(_appData.database || []);
-				setTimeout(function () {
-					callback();
-				},_loadingTime);
+				callback();
 			});
 		}
 	};
@@ -148,10 +143,7 @@ MYAPP.model = (function (MYAPP) {
 			console.log('No internet connection');
 			// setTimeout(_updateLocalStorage(), 60000);
 		}
-
-		setTimeout(function () {
-			callback();
-		},500);
+		callback();
 	};
 
 	// Check for data in localStorage
@@ -179,6 +171,7 @@ MYAPP.model = (function (MYAPP) {
 			data = JSON.parse(window.localStorage[name]);
 		} catch (e) {
 			setTimeout(function () {
+				console.log('FAIL!:',e);
 				_getLocalStorage(name);
 			},333);
 		}

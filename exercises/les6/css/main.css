@@ -54,35 +54,69 @@ h3 {
 /*header*/
 .site-header {
 	z-index: 100;
+	overflow: hidden;
 	margin-bottom: 1rem;
-	background-color: #fff;
+	color: #fff;
+	background-color: #000;
 }
 
 /* Logo */
 .logo {
-	float: left;
+	display: inline-block;
 	clear: both;
 	margin: 10px;
-	padding: 10px 0;
+	padding: 0.5em;
 	height: 100%;
-	color: #000;
-	background-color: #fff;
-	border-width: 10px 0;
+	color: #fff;
+	background-color: #000;
+	border-width: 0.4em 0;
 	border-style: dashed;
-	border-color: #000;
+	border-color: #fff;
 	transition: all 0.3s ease;
 }
 a:hover .logo,
 a:focus .logo {
-	color: #fff;
-	background-color: #000;
-	border-color: #fff;
+	color: #000;
+	background-color: #fff;
+	border-color: #000;
 	-webkit-transform: skew(360deg, 360deg);
 	-moz-transform: skew(360deg, 360deg);
 	-o-transform: skew(360deg, 360deg);
 	-ms-transform: skew(360deg, 360deg);
 	transform: skew(360deg, 360deg);
 }
+
+/* Menu */
+.main-menu {
+}
+.main-menu-title {
+	position: absolute;
+	top: -100%;
+}
+.main-menu-list {
+	float: right;
+	list-style-type: none;
+}
+.main-menu-list-item {
+	display: inline-block;
+	float: left;
+}
+.main-menu-link {
+	display: inline-block;
+	padding: 0.5em;
+	text-transform: uppercase;
+	text-decoration: none;
+	outline: none;
+	transition: color ;
+}
+.main-menu-link:hover,
+.main-menu-link:focus,
+.main-menu-link-active {
+	color: #000;
+	background-color: #fff;
+	transition: all 0.5s ease;
+}
+
 /* Layout pages */
 .page {
 	z-index: 0;
@@ -125,12 +159,14 @@ a:focus .logo {
 
 .loader-text {
 	position: absolute;
-	top: 1em;
+	top: 33%;
 	width: 100%;
-	font-size: 2em;
 	text-align: center;
 }
 .loader-message {
+	clear: both;
+	padding: 1em;
+	font-size: 2em;
 	-webkit-animation: infiniteFader 2s infinite;
 	animation: infiniteFader 2s infinite;
 }
