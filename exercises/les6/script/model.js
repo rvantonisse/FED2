@@ -56,18 +56,20 @@ MYAPP.model = (function (MYAPP) {
 			// Check if _appData is stored locally for quick loading
 			if(isLocalStorage('MYAPPMovies')) {
 				// console.log('rvaAppDatabase is locally stored');
-				setMovies(getLocalStorage('MYAPPMovies'));
+				setDatabase(getLocalStorage('MYAPPMovies'));
 				// Update data in the background
 				updateLocalStorage(function () {
-					setMovies(getLocalStorage('MYAPPMovies'));
+					setDatabase(getLocalStorage('MYAPPMovies'));
+					setMovies();
+					callback();
 				});
-				callback();
 			} else {
 				// If rvaAppDatabase is not locally stored retrieve the data and store it locally
 				updateLocalStorage(function () {
-					setMovies(getLocalStorage('MYAPPMovies'));
+					setDatabase(getLocalStorage('MYAPPMovies'));
+					setMovies();
+					callback();
 				});
-				callback();
 			}
 		} else {
 			// No localStorage available, load page as normal
@@ -75,7 +77,6 @@ MYAPP.model = (function (MYAPP) {
 			getJSON('http://dennistel.nl/movies', function(data) {
 				// console.log('appData.getData().callback');
 				setDatabase(data);
-				setMovies(_appData.database || []);
 				callback();
 			});
 		}
@@ -130,25 +131,24 @@ MYAPP.model = (function (MYAPP) {
 	_updateLocalStorage = function(callback) {
 		var getJSON = _getJSON,
 			setLocalStorage = _setLocalStorage;
-		// console.log('updateLocalStorage()');
+		console.log('updateLocalStorage()');
 		if(window.navigator.onLine) {
-			// Dostuff
 			// console.log('Connected to internet');
 			getJSON('http://dennistel.nl/movies', function(data) {
 				// console.log('appData.getData().callback');
 				setLocalStorage('MYAPPMovies', data);
+				callback();
 			});
 		} else {
 			// not online do not load data
 			console.log('No internet connection');
-			// setTimeout(_updateLocalStorage(), 60000);
+			callback();
 		}
-		callback();
 	};
 
 	// Check for data in localStorage
 	_isLocalStorage = function(name) {
-		// console.log('isLocallyStored(' + name + ')');
+		console.log('isLocallyStored(' + name + ')');
 		return (window.localStorage[name] !== undefined);
 	};
 	/*
@@ -156,7 +156,7 @@ MYAPP.model = (function (MYAPP) {
 	** Save data into localStorage
 	 */
 	_setLocalStorage = function(name, data) {
-		// console.log('saveToLocalStorage(' + name + ', ' + data + ')');
+		console.log('setLocalStorage(' + name + ', ' + data + ')');
 		window.localStorage[name] = JSON.stringify(data);
 	};
 	/*
@@ -164,33 +164,27 @@ MYAPP.model = (function (MYAPP) {
 	** Get data from local storage
 	 */
 	_getLocalStorage = function(name) {
-		var isLocalStorage = _isLocalStorage,
-			data;
-		// Parse the localstorage item if fail, try again 3x a sec
-		try {
-			data = JSON.parse(window.localStorage[name]);
-		} catch (e) {
-			setTimeout(function () {
-				console.log('FAIL!:',e);
-				_getLocalStorage(name);
-			},333);
-		}
-		return data;
+		console.log('getLocalStorage(' + name + ')');
+		return JSON.parse(window.localStorage[name]);
 	};
 	// Set the appdata database
 	function _setDatabase(data) {
-		if (data !== []) {
+		console.log('setDatabase()',data);
+		if (data !== [] && data !== undefined) {
 			_appData.database = data;
 			return true;
 		}
+
 		return false;
 	}
-	_setMovies = function (data) {
-		console.log('model.setMovies(' + data + ')');
+	_setMovies = function () {
+		console.log('model.setMovies()');
 		var movies = [],
-			results = data,
+			results = [],
 			result,
 			niceUrl = _helpers.niceUrl;
+			results = _appData.database;
+
 			// console.log(results);
 		for(result = 0; result < results.length; result++) {
 			var thisMovie = results[result];
@@ -283,6 +277,7 @@ MYAPP.model = (function (MYAPP) {
 		init: _init,
 		pages: _appData.pages,
 		setGenre: _setGenre,
-		setMovie: _setMovie
+		setMovie: _setMovie,
+		setMovies: _setMovies
 	};
 }(MYAPP || {}));

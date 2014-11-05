@@ -195,7 +195,7 @@ MYAPP.view = (function (MYAPP) {
 			loader.classList.add(off);
 			setTimeout(function () {
 				loader.classList.add('hidden');
-			},1000);
+			},500);
 		}
 	}
 	// Render a view
@@ -218,6 +218,7 @@ MYAPP.view = (function (MYAPP) {
 			render = _render,
 			setGenre = MYAPP.model.setGenre,
 			setMovie = MYAPP.model.setMovie,
+			setMovies = MYAPP.model.setMovies,
 			transitionEnd = _helpers.transitionEnd();
 
 		function toggleVisibility (el) {
@@ -244,12 +245,14 @@ MYAPP.view = (function (MYAPP) {
 		// Set / render pages first before showing them
 		if (view === 'genre') {
 			setGenre(param);
-			render(view);
 		}
 		if (view === 'movie') {
 			setMovie(param);
-			render(view);
 		}
+		if (view === 'movies') {
+			setMovies();
+		}
+		render(view);
 		// Make other views disappear and the requested view appear
 		for (i = 0; i < viewEls.length; i++) {
 			var thisViewEl = viewEls[i],
