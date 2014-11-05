@@ -5,6 +5,7 @@ MYAPP.model = (function (MYAPP) {
 	// Dependencies and variable initiation
 	var _helpers = MYAPP.helpers,
 		_arrayHelpers = _helpers.arrayMethods,
+		_loadingTime = 5000,
 		_appData,
 		_init,
 		_getJSON,
@@ -38,7 +39,7 @@ MYAPP.model = (function (MYAPP) {
 			},
 			genre: {
 				title: 'genre',
-				content: []
+				content: [{}]
 			}
 		}
 	};
@@ -63,11 +64,13 @@ MYAPP.model = (function (MYAPP) {
 				});
 				callback();
 			} else {
-				// If rvaAppDatabase is not locally stored
+				// If rvaAppDatabase is not locally stored retrieve the data and store it locally
 				updateLocalStorage(function () {
 					setMovies(getLocalStorage('MYAPPMovies'));
 				});
-				callback();
+				setTimeout(function () {
+					callback();
+				},_loadingTime);
 			}
 		} else {
 			// No localStorage available, load page as normal
@@ -76,7 +79,9 @@ MYAPP.model = (function (MYAPP) {
 				// console.log('appData.getData().callback');
 				setDatabase(data);
 				setMovies(_appData.database || []);
-				callback();
+				setTimeout(function () {
+					callback();
+				},_loadingTime);
 			});
 		}
 	};
@@ -139,11 +144,14 @@ MYAPP.model = (function (MYAPP) {
 				setLocalStorage('MYAPPMovies', data);
 			});
 		} else {
-			// not online dont try to load data
+			// not online do not load data
 			console.log('No internet connection');
 			// setTimeout(_updateLocalStorage(), 60000);
 		}
-		callback();
+
+		setTimeout(function () {
+			callback();
+		},500);
 	};
 
 	// Check for data in localStorage
@@ -164,7 +172,17 @@ MYAPP.model = (function (MYAPP) {
 	** Get data from local storage
 	 */
 	_getLocalStorage = function(name) {
-		return JSON.parse(window.localStorage[name]);
+		var isLocalStorage = _isLocalStorage,
+			data;
+		// Parse the localstorage item if fail, try again 3x a sec
+		try {
+			data = JSON.parse(window.localStorage[name]);
+		} catch (e) {
+			setTimeout(function () {
+				_getLocalStorage(name);
+			},333);
+		}
+		return data;
 	};
 	// Set the appdata database
 	function _setDatabase(data) {

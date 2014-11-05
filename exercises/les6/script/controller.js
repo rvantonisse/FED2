@@ -15,16 +15,10 @@ MYAPP.controller = (function (MYAPP) {
 		console.log('controller.init()');
 		var router = _router,
 			view = _view,
-			model = _model,
-			enableJS;
+			model = _model;
 
-		enableJS = function () {
-			var html = document.querySelector('html');
-			html.classList.toggle('js');
-		};
 		// Initiate stuff
 		console.log('controller.init()');
-		enableJS();
 		model.init(function () {
 			router.init();
 			view.init();

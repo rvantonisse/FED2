@@ -10,7 +10,7 @@
 </head>
 <body>
 	<header class="site-header">
-		<h1>FavoMo</h1>
+		<a href="index.html"><h1 class="logo">FavoMo</h1></a>
 		<nav class="main-menu">
 			<h2>Menu</h2>
 			<ul>
@@ -21,15 +21,14 @@
 	</header>
 
 	<main id="content">
-		<section data-route="about">
-			<h1 data-bind="title"></h1>
+		<section class="page" data-route="about">
+			<h1 class="page-title" data-bind="title"></h1>
 			<div data-bind="content">
 				<p data-bind="text"></p>
 			</div>
 		</section>
-
-		<section data-route="movies">
-			<h1 data-bind="title"></h1>
+		<section class="page" data-route="movies">
+			<h1 class="page-title" data-bind="title"></h1>
 			<div class="movies" data-bind="content">
 				<article class="movie-excerpt">
 					<figure class="movie-excerpt-img-box">
@@ -47,8 +46,8 @@
 				</article>
 			</div>
 		</section>
-		<section data-route="genre">
-			<h1 data-bind="title"></h1>
+		<section class="page" data-route="genre">
+			<h1 class="page-title" data-bind="title"></h1>
 			<div data-bind="content">
 				<article class="movie-excerpt">
 					<h2 data-bind="title"></h2>
@@ -66,8 +65,8 @@
 				</article>
 			</div>
 		</section>
-		<section data-route="movie">
-			<h1 data-bind="title"></h1>
+		<section class="page" data-route="movie">
+			<h1 class="page-title" data-bind="title"></h1>
 			<article class="movie" data-bind="content">
 
 				<figure>
@@ -84,6 +83,13 @@
 			</article>
 		</section>
 	</main>
+	<div class="loader-on" data-bind="loader">
+		<div class="loader-text">
+			<h1>FavoMO</h1>
+			<noscript>Sorry, but this web application needs JavaScript to be turned on. ;)</noscript>
+			<span class="loader-message">Loading</span>
+		</div>
+	</div>
 
     <script src="script/vendor/underscore.js"></script>
     <script src="script/vendor/transparency.js"></script>

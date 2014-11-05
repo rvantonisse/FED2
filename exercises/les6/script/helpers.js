@@ -17,9 +17,29 @@ MYAPP.helpers = (function (MYAPP) {
 		return document.querySelectorAll(query);
 	};
 
+	// Events
+	// Transitionend
+	/* From Modernizr */
+	function _whichTransitionEvent(){
+		var t,
+			el = document.createElement('fakeelement'),
+			transitions = {
+				'transition':'transitionend',
+				'OTransition':'oTransitionEnd',
+				'MozTransition':'transitionend',
+				'WebkitTransition':'webkitTransitionEnd'
+			};
+
+		for (t in transitions) {
+			if (el.style[t] !== undefined) {
+				return transitions[t];
+			}
+		}
+	}
+
 	// String manipulation
 	_niceUrl = function(url) {
-		console.log('niceUrl(' + url + ')');
+		// console.log('niceUrl(' + url + ')');
 		// To lowercase
 		url = url.toLowerCase(url);
 		// Replace space with '-'
@@ -43,6 +63,7 @@ MYAPP.helpers = (function (MYAPP) {
 		el: _el,
 		els: _els,
 		niceUrl: _niceUrl,
+		transitionEnd: _whichTransitionEvent,
 		arrayMethods: _arrayMethods
 	};
 }(MYAPP || {}));

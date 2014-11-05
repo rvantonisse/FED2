@@ -174,11 +174,30 @@ MYAPP.view = (function (MYAPP) {
 		var render = _render,
 			views = _views,
 			view;
-
+		_toggleLoader('off');
 		for (view in views) {
 			render(views[view].title);
 		}
 	};
+	function _toggleLoader (state) {
+		var loader = _el('[data-bind="loader"]'),
+			on = 'loader-on',
+			off = 'loader-off';
+		if (state === 'on') {
+			loader.classList.remove('hidden');
+			setTimeout(function () {
+				loader.classList.remove(off);
+				loader.classList.add(on);
+			},100);
+		}
+		if (state === 'off') {
+			loader.classList.remove(on);
+			loader.classList.add(off);
+			setTimeout(function () {
+				loader.classList.add('hidden');
+			},1000);
+		}
+	}
 	// Render a view
 	_render = function (view) {
 		console.log('view.render(' + view + ')');
@@ -195,25 +214,34 @@ MYAPP.view = (function (MYAPP) {
 	_show = function (view, param) {
 		console.log('view.show(' + view + ')');
 		var i,
-			views = _els('[data-route]'),
+			viewEls = _els('.page'),
 			render = _render,
 			setGenre = MYAPP.model.setGenre,
-			setMovie = MYAPP.model.setMovie;
+			setMovie = MYAPP.model.setMovie,
+			transitionEnd = _helpers.transitionEnd();
 
-		// Make the view appear and make other views disappear
-		for (i = 0; i < views.length; i++) {
-			var thisClassList = views[i].classList,
-				css = 'visible',
-				thisRoute = views[i].dataset.route;
-			// Check if thisClasslist contains the css and if thisRoute is not the view to be shown
-			if (thisClassList.contains(css) && thisRoute !== view) {
-				thisClassList.remove(css);
-			}
-			// Add the css to thisClassList if thisRoute is the view to be shown
-			else if (thisRoute === view) {
-				thisClassList.add(css);
+		function toggleVisibility (el) {
+			console.log('toggleVisibility(' + el.dataset.route + ')');
+			if (el.classList.contains('hidden')) {
+				el.classList.remove('hidden');
+				setTimeout(function () {
+					transform(el);
+				},100);
+			} else {
+				transform(el);
+				el.classList.add('hidden');
 			}
 		}
+
+		function transform (el) {
+			console.log('transform(' + el.dataset.route + ')');
+			if (el.classList.contains('transformed')) {
+				el.classList.remove('transformed');
+			} else {
+				el.classList.add('transformed');
+			}
+		}
+		// Set / render pages first before showing them
 		if (view === 'genre') {
 			setGenre(param);
 			render(view);
@@ -221,6 +249,20 @@ MYAPP.view = (function (MYAPP) {
 		if (view === 'movie') {
 			setMovie(param);
 			render(view);
+		}
+		// Make other views disappear and the requested view appear
+		for (i = 0; i < viewEls.length; i++) {
+			var thisViewEl = viewEls[i],
+				thisRoute = viewEls[i].dataset.route;
+
+			// Hide all views
+			if (!thisViewEl.classList.contains('hidden')) {
+				toggleVisibility(thisViewEl);
+			}
+			if (view === thisRoute && thisViewEl.classList.contains('hidden')) {
+				toggleVisibility(thisViewEl);
+				window.scrollTo(0,0); // Return to the top of the page
+			}
 		}
 	};
 	// Export privates to the public
