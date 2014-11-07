@@ -1,0 +1,75 @@
+@charset 'UTF-8';
+
+/*
+ * Reset margins and paddings
+ */
+body,
+ul,
+ol,
+li,
+figure,
+img,
+h1,
+h2,
+h3,
+h4,
+p {
+	margin: 0;
+	padding: 0;
+}
+
+
+body {
+	/* cssfontstack.com :3 */
+	font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+	letter-spacing: 0.1em;
+	line-height: 1.5em;
+}
+
+a {
+	color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	margin-top: 1.5em;
+	line-height: 1em;
+}
+
+h1 {
+	font-size: 3em;
+}
+h2 {
+	font-size: 2em;
+}
+h3 {
+	font-size: 1.5em;
+}
+
+/* Layout pages */
+section[data-route] {
+	display: none;
+}
+section.visible {
+	display: block;
+}
+
+/* MOVIES */
+.movie-collection {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.movie {
+	padding: 0 5%;
+	flex-basis: 40%;
+}
+
+.movie-cover {
+	width: 100%;
+	max-width: 320px;
+}
+
