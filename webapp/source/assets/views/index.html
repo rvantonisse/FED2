@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Web App V1, basic JavaScript Skeleton">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LES 6 - My Favorite Movies</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="author" href="humans.txt">
+</head>
+<body>
+	<header class="site-header">
+		<a href="#"><h1 class="logo">FavoMo</h1></a>
+		<nav class="main-menu">
+			<h2 class="main-menu-title">Menu</h2>
+			<ul class="main-menu-list">
+				<li class="main-menu-list-item"><a class="main-menu-link" href="#about">About</a></li>
+				<li class="main-menu-list-item"><a class="main-menu-link" href="#movies">Movies</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<main id="content">
+		<section class="page" data-route="about">
+			<h1 class="page-title" data-bind="title"></h1>
+			<div data-bind="content">
+				<p data-bind="text"></p>
+			</div>
+		</section>
+		<section class="page" data-route="movies">
+			<h1 class="page-title" data-bind="title"></h1>
+			<div class="movies" data-bind="content">
+				<article class="movie-excerpt">
+					<figure class="movie-excerpt-img-box">
+						<img class="movie-cover" src="" alt="" data-bind="cover">
+					</figure>
+					<h2 class="movie-excerpt-title" data-bind="title"></h2>
+					<div class="movie-excerpt-meta-data">
+						<time data-bind="releaseDate"></time>
+						<p data-bind="genres">
+							<a data-bind="genre" href=""></a>
+						</p>
+						<p data-bind="reviewScore">Review score: </p>
+						<p data-bind="description"><a data-bind="link" href="#">Read more about </a></p>
+					</div>
+				</article>
+			</div>
+		</section>
+		<section class="page" data-route="genre">
+			<h1 class="page-title" data-bind="title"></h1>
+			<div data-bind="content">
+				<article class="movie-excerpt">
+					<h2 data-bind="title"></h2>
+					<figure>
+						<img class="movie-cover" src="" alt="" data-bind="cover">
+					</figure>
+					<div class="movie-meta-data">
+						<time data-bind="releaseDate"></time>
+						<p data-bind="genres">
+							<a data-bind="genre" href=""></a>
+						</p>
+						<p data-bind="reviewScore">Review score: </p>
+						<p data-bind="description"><a data-bind="link" href="#">Read more about </a></p>
+					</div>
+				</article>
+			</div>
+		</section>
+		<section class="page" data-route="movie">
+			<h1 class="page-title" data-bind="title"></h1>
+			<article class="movie" data-bind="content">
+
+				<figure>
+					<img class="movie-cover" src="" alt="" data-bind="cover">
+				</figure>
+				<div class="movie-meta-data">
+					<time data-bind="releaseDate"></time>
+					<p data-bind="genres">
+						<a data-bind="genre" href=""></a>
+					</p>
+					<p data-bind="reviewScore">Review score: </p>
+				</div>
+				<p data-bind="plot"></p>
+			</article>
+		</section>
+	</main>
+	<div class="loader-on" data-bind="loader">
+		<div class="loader-text">
+			<h1 class="logo">FavoMo</h1>
+			<noscript>Sorry, but this web application needs JavaScript to be turned on. ;)</noscript>
+			<p class="loader-message">Loading</p>
+		</div>
+	</div>
+
+    <script src="script/vendor/hammer.js"></script>
+    <script src="script/vendor/underscore.js"></script>
+    <script src="script/vendor/transparency.js"></script>
+    <script src="script/vendor/routie.js"></script>
+    <script src="script/helpers.js"></script>
+    <script src="script/model.js"></script>
+    <script src="script/view.js"></script>
+    <script src="script/router.js"></script>
+    <script src="script/modules/touch.js"></script>
+    <script src="script/controller.js"></script>
+    <script src="script/app.js"></script>
+</body>
+</html>
