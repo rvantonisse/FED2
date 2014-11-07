@@ -1,5 +1,5 @@
 	Author: Roel Antonisse
-	Last updated: 10/10/2014
+	Last updated: 07/11/2014
 
 # Web Application Assignment
 
@@ -16,9 +16,18 @@ This is a web App based website of a movie collection. Build as an introduction 
 
 ### Dependencies
 
-__TODO__
-You need to have [Node.js](http://nodejs.org/) with node package manager running in your command-line interface to start developing.
-The project is build with [Grunt.js](http://gruntjs.com/getting-started) taskmanager. Sass is used as CSS pre-processor. Transperency.js as js template engine (Nunjucks templating enginge in final product).
+* You need to have [Node.js](http://nodejs.org/) with node package manager running in your command-line interface to start developing.
+* The project is build with [Grunt.js](http://gruntjs.com/getting-started) taskmanager.
+
+### Project adds
+
+* JavaScript:
+	* [Routie](http://projects.jga.me/routie/) for routing
+	* [Transparency](http://leonidas.github.io/transparency/) client side templating engine
+	* [Underscore](http://underscorejs.org/) for data/array manipulation
+	* [Hammer](http://hammerjs.github.io/) for the extra touch ;)
+* CSS:
+	* [Normalize](http://necolas.github.io/normalize.css/) adding instant style
 
 ### Conventions
 
@@ -45,6 +54,9 @@ On the command line interface
 __TODO__
 If [node](#dependencies) installed, enter the magic words in the CLI:
 
+	$ npm install -g grunt-cli	//If you have not used grunt before
+
+	//Start developing
 	$ npm install
 	$ grunt develop
 
@@ -52,4 +64,3 @@ If [node](#dependencies) installed, enter the magic words in the CLI:
 
 Like to contribute? Please do so by creating a pull request.
 Clearly state issues and sources changed/solved.
-
