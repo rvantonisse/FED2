@@ -1,8 +1,8 @@
 // Controller
-FavoMo.controller = (function (FavoMo) {
+FAVOMO.controller = (function () {
 	var controller = controller || {},
-		_view = FavoMo.view,
-		_model = FavoMo.model;
+		_view = FAVOMO.view,
+		_model = FAVOMO.model;
 	// do eeet
 	function _Controller (name) {
 		this.name = name;
@@ -10,10 +10,10 @@ FavoMo.controller = (function (FavoMo) {
 		this.view = _view[name] || name + ' view';
 	}
 
-	controller.movies = new _Controller('movies');
-	console.log(movies.name);
-
+	function _init () {
+		// Init? init?! INNIT?!!
+	}
 	return {
 		init: _init
 	};
-})(FavoMo || {});
+})();

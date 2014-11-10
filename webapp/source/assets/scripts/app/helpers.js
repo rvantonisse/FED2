@@ -1,21 +1,15 @@
-// Namespacing
-var MYAPP = MYAPP || {};
-
-MYAPP.helpers = (function (MYAPP) {
+FAVOMO.helpers = (function () {
 	// Dependencies
 	var _underscore = _,
-		_arrayMethods = {},
-		_el,
-		_els,
-		_niceUrl;
+		_arrayMethods = {};
 
 	// DOM selecting
-	_el = function (query) {
+	function _el (query) {
 		return document.querySelector(query);
-	};
-	_els = function (query) {
+	}
+	function _els (query) {
 		return document.querySelectorAll(query);
-	};
+	}
 
 	// Events
 	// Transitionend
@@ -38,14 +32,14 @@ MYAPP.helpers = (function (MYAPP) {
 	}
 
 	// String manipulation
-	_niceUrl = function(url) {
+	function _niceUrl (url) {
 		// console.log('niceUrl(' + url + ')');
 		// To lowercase
 		url = url.toLowerCase(url);
 		// Replace space with '-'
 		url = url.replace(/ /g, '-');
 		return url;
-	};
+	}
 
 	// Array helper functions from underscore.js
 	_arrayMethods = {
@@ -67,4 +61,4 @@ MYAPP.helpers = (function (MYAPP) {
 		transitionEnd: _whichTransitionEvent,
 		arrayMethods: _arrayMethods
 	};
-}(MYAPP || {}));
+}());
