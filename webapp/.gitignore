@@ -41,8 +41,9 @@ Thumbs.db
 *.sublime-project
 *.sublime-workspace
 
-# Folders #
+# Project folders #
 ###########
 development/
 distribution/
+build/
 node_modules/
