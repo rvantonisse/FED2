@@ -2,6 +2,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    // Simple but very effective cleaning
     clean: {
       dev: [
         'development/'
@@ -10,12 +11,13 @@ module.exports = function(grunt) {
         'distribution/'
       ]
     },
-    // Uglifying
+    // Minify JavaScript (only)
     uglify: {
       options: {
         // banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
         preserveComments: 'some'
       },
+      // For distribution only
       dist: {
         options: {
           compress: {
@@ -23,10 +25,10 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          'distribution/script/main.js': [
+          'distribution/script/main.min.js': [
             'source/assets/scripts/vendor/*.js',
-            'source/assets/scripts/app/namespaces.js',
             'source/assets/scripts/app/helpers.js',
+            'source/assets/scripts/app/namespaces.js',
             'source/assets/scripts/app/model/*.js',
             'source/assets/scripts/app/view/*.js',
             'source/assets/scripts/app/controller/*.js',
@@ -34,26 +36,33 @@ module.exports = function(grunt) {
           ]
         }
       },
+      // For development just minify the vendors and save to 'build/'
       dev: {
-        options: {
-          banner: '/*! BUILD BY UGLIFY FOR DEVELOPMENT: EXCLUDE AS SOURCE FOR DISTRIBUTION */\n'
-        },
         files: {
-          'source/assets/script/vendor/vendors.min.build.js': [
-            'source/assets/scripts/vendor/*.js',
-            '!source/assets/scripts/vendor/vendors.min.build.js'
+          'build/assets/scripts/vendor/vendors.min.js': [
+            'source/assets/scripts/vendor/*.js'
           ]
         }
       }
     },
+    // minify css
     cssmin: {
+      // Distribution minies all
       dist: {
         files: {
           'distribution/css/main.css': [
-            'source/assets/css/vendor/*.css',
-            'source/assets/css/base.css',
-            'source/assets/css/components/*.css',
-            'source/assets/css/views/*.css'
+            'source/assets/styles/vendor/*.css',
+            'source/assets/styles/base.css',
+            'source/assets/styles/components/*.css',
+            'source/assets/styles/views/*.css'
+          ]
+        }
+      },
+      // Development needs minied vendors
+      dev: {
+        files: {
+          'build/assets/styles/vendor/vendors.min.css': [
+            'source/assets/styles/vendor/*.css'
           ]
         }
       }
@@ -67,7 +76,7 @@ module.exports = function(grunt) {
         files: {
           // css files
           'development/assets/main.css': [
-            'source/assets/styles/vendor/*.css',
+            'build/assets/styles/vendor/vendors.min.css',
             'source/assets/styles/base.css',
             'source/assets/styles/components/*.css',
             'source/assets/styles/views/*.css'
@@ -78,7 +87,7 @@ module.exports = function(grunt) {
         files: {
           // js files
           'development/assets/main.js': [
-            'source/assets/scripts/vendor/vendors.min.js',
+            'build/assets/scripts/vendor/vendors.min.js',
             'source/assets/scripts/app/namespaces.js',
             'source/assets/scripts/app/helpers.js',
             'source/assets/scripts/app/model/*.js',
@@ -109,27 +118,23 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      options: {
-        livereload: true,
-      },
       scripts: {
         files: [
-          'source/assets/scripts/*/*.js',
-          '!source/assets/scripts/vendor/vendors.min.js'
+          'source/assets/scripts/**/*.js'
         ],
         tasks: [
           'uglify:dev',
           'concat:scripts'
-        ],
+        ]
       },
       styles: {
         files: [
-          'source/assets/styles/*/*.js',
-          '!source/assets/styles/vendor/vendors.min.js'
+          'source/assets/styles/**/*.css'
         ],
         tasks: [
+          'cssmin:dev',
           'concat:styles'
-        ],
+        ]
       },
       html: {
         files: [
@@ -151,8 +156,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Default task(s).
-  grunt.registerTask('develop', ['clean:dev','uglify:dev','concat','copy:dev','watch']);
-  grunt.registerTask('distribute', ['clean:dist','uglify:dist','cssmin','copy:dist']);
+  grunt.registerTask('develop', ['clean:dev','uglify:dev','cssmin:dev','concat','copy:dev','watch']);
+  grunt.registerTask('distribute', ['clean:dist','uglify:dist','cssmin:dist','copy:dist']);
   grunt.registerTask('default', ['develop']);
 
 };
