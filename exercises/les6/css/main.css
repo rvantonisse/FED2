@@ -75,7 +75,8 @@ p + p {
 	border-width: 0.4em 0;
 	border-style: dashed;
 	border-color: #fff;
-	transition: all 0.3s ease;
+	-webkit-transition: all 0.5s ease;
+	transition: all 0.5s ease;
 }
 a:hover .logo,
 a:focus .logo {
@@ -84,8 +85,7 @@ a:focus .logo {
 	border-color: #000;
 	-webkit-transform: skew(360deg, 360deg);
 	-moz-transform: skew(360deg, 360deg);
-	-o-transform: skew(360deg, 360deg);
-	-ms-transform: skew(360deg, 360deg);
+
 	transform: skew(360deg, 360deg);
 }
 
@@ -128,8 +128,8 @@ a:focus .logo {
 	opacity: 1;
 	-webkit-transform:  translate(0,0);
 	transform:  translate(0,0);
-	-webkit-transition: transform 0.5s ease, opacity 1s ease;
-	transition: transform 0.5s ease, opacity 1s ease;
+	-webkit-transition: transform 1s ease, opacity 1.5s ease;
+	transition: transform 1s ease, opacity 1.5s ease;
 }
 .page-title {
 
@@ -169,8 +169,8 @@ a:focus .logo {
 }
 .loader-off {
 	opacity: 0;
-	-webkit-transition: opacity 0.5s ease;
-	transition: opacity 0.5s ease;
+	-webkit-transition: opacity 1s ease;
+	transition: opacity 1s ease;
 }
 
 .loader-text {
