@@ -1,4 +1,5 @@
-var FAVOMO = (function () {
+var FAVOMO = (function (FAVOMO) {
+	// debugger;
 	var namespaces = {};
 	namespaces._namespace = function (namespaceString) {
 		var parts = namespaceString.split('.'),
@@ -20,13 +21,13 @@ var FAVOMO = (function () {
 
 	// call the namespaces
 	namespaces._namespace('helpers');
-	namespaces._namespace('app.model');
-	namespaces._namespace('app.view');
-	namespaces._namespace('app.controller');
+	namespaces._namespace('model');
+	namespaces._namespace('view');
+	namespaces._namespace('controller');
 
 	// No more need for the _namespace method
 	delete namespaces._namespace;
 	// Reveal
 	return namespaces;
 
-})();
+})(FAVOMO || {});

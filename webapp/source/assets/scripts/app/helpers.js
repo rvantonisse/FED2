@@ -1,4 +1,4 @@
-FAVOMO.helpers = (function () {
+FAVOMO.helpers = (function (FAVOMO) {
 	// Dependencies
 	var _underscore = _,
 		_arrayMethods = {};
@@ -59,6 +59,6 @@ FAVOMO.helpers = (function () {
 		els: _els,
 		niceUrl: _niceUrl,
 		transitionEnd: _whichTransitionEvent,
-		arrayMethods: _arrayMethods
+		array: _arrayMethods
 	};
-}());
+}(FAVOMO || {}));
