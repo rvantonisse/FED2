@@ -110,13 +110,13 @@ a:focus .logo {
 	text-transform: uppercase;
 	text-decoration: none;
 	outline: none;
-	transition: color ;
 }
 .main-menu-link:hover,
 .main-menu-link:focus,
 .main-menu-link-active {
 	color: #000;
 	background-color: #fff;
+	-webkit-transition: all 0.5s ease;
 	transition: all 0.5s ease;
 }
 
@@ -126,7 +126,9 @@ a:focus .logo {
 	padding: 0 1em;
 	background-color: #fff;
 	opacity: 1;
+	-webkit-transform:  translate(0,0);
 	transform:  translate(0,0);
+	-webkit-transition: transform 0.5s ease, opacity 1s ease;
 	transition: transform 0.5s ease, opacity 1s ease;
 }
 .page-title {
@@ -137,6 +139,7 @@ a:focus .logo {
 }
 .transformed {
 	opacity: 0;
+	-webkit-transform:  translate(0,100%);
 	transform:  translate(0,100%);
 }
 /*.visible {
@@ -166,6 +169,7 @@ a:focus .logo {
 }
 .loader-off {
 	opacity: 0;
+	-webkit-transition: opacity 0.5s ease;
 	transition: opacity 0.5s ease;
 }
 
